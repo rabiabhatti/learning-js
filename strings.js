@@ -112,7 +112,7 @@ function strIndexOf(str, substr) {
 
 console.log('strIndexOf', strIndexOf(string, 'quick'))
 
-function strIncludes(str) {
+function strIncludes(str, substr) {
     let matchStartIndex = null
     let matchLength = 0
 
