@@ -298,3 +298,17 @@ function arrayReduce(array, callback, initialValue) {
 }
 
 // console.log(arrayReduce(array1, ((acc, cur) => acc + " " + cur)))
+
+function arrayRightReduce(array, callback, initialValue) {
+    array = array.reverse()
+    const begin = initialValue ? initialValue : array[0]
+    let result
+    let i = initialValue ? 0 : 1
+    for (i; i < array.length; i++) {
+        const start = result ? result : begin
+        result = callback(start, array[i])
+    }
+    return result
+}
+
+console.log(arrayRightReduce(array1, ((acc, cur) => acc + " " + cur)))
