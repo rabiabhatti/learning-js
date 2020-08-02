@@ -201,7 +201,7 @@ function arrayPop(arr) {
 // console.log(arrayPop(array1))
 
 function arrayPush(array, element) {
-    array =  [...array, element]
+    array[array.length] = element
     return array.length
 }
 // console.log(arrayPush(array1, 'world'))
@@ -311,4 +311,4 @@ function arrayRightReduce(array, callback, initialValue) {
     return result
 }
 
-console.log(arrayRightReduce(array1, ((acc, cur) => acc + " " + cur)))
+// console.log(arrayRightReduce(array1, ((acc, cur) => acc + " " + cur)))
