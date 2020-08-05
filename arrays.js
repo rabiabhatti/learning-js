@@ -236,17 +236,10 @@ function arrayUnshift(arr, ...items) {
             arr[i] = items[j]
             j += 1
         }
-
-        const existedItem =  arr[i]
-        if (i < itemsLength) {
-            arr.length += 1
-            arr[i] = items[i]
-            arr[i + itemsLength] = existedItem
-        }
     }
     return arr
 }
-console.log(arrayUnshift(array1, 'world','test'))
+// console.log(arrayUnshift(array1, 'world','test'))
 
 function arraySplice(arr, begin, count, ...items) {
     const { length } = arr
