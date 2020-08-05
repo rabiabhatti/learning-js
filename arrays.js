@@ -4,14 +4,13 @@ const array1 = ['hello', 'one', 'two', 'three', 'four', 'five']
 const array2 = ['hello', 1, 'two', 'three']
 
 function arrayEvery(array, callback) {
-    let passed = true
     for (let i = 0; i < array.length; i++) {
-        passed = callback(array[i])
+        const passed = callback(array[i])
         if (!passed) {
-            break
+            return false
         }
     }
-    return passed
+    return true
 }
 const checkForString = item => typeof item === 'string'
 
@@ -24,14 +23,17 @@ function arrayFill(array, filler, begin, end) {
     if (end === 0) {
         return copy
     }
-    begin = begin == null ? 0 : begin
-    end = begin == null ? length - 1 : end
+    let newBegin = begin == null ? 0 : begin
+    let newEnd = begin == null ? length - 1 : end
 
-    begin = begin < 0 ? length + begin : begin
-    end = end < 0 ? length + end : end
+    if (newBegin < 0) {
+        newBegin = length + newBegin
+    }
+    if (newEnd < 0) {
+        newEnd = length + newEnd
+    }
 
-
-    for (let i = begin; i < end; i++) {
+    for (let i = newBegin; i < newEnd; i++) {
         copy[i] = filler
     }
 
@@ -43,9 +45,10 @@ function arrayFill(array, filler, begin, end) {
 
 function arrayFilter(array, callback) {
     const filtered = []
-    for (let i = 0; i < array.length; i++) {
-        const response = callback(array[i])
-        if (response) filtered.push(array[i])
+    for (let i = 0, {length} = array; i < length; i +=1) {
+        if (callback(array[i])) {
+            filtered.push(array[i])
+        }
     }
     return filtered
 }
@@ -53,37 +56,29 @@ function arrayFilter(array, callback) {
 // console.log(arrayFilter(array2, checkForString))
 
 function arrayFind(array, callback) {
-    let found = undefined
-    for (let i = 0; i < array.length; i++) {
-        const res = callback(array[i])
-        if (res) {
-            found = array[i]
-            break
+    for (let i = 0, {length} = array; i < length; i +=1) {
+        if (callback(array[i])) {
+            return array[i]
         }
     }
-    return found
 }
 // console.log(arrayFind(array1, (item) => item === 'hello'))
 
 function arrayFindIndex(array, callback) {
-    let index = -1
-    for (let i = 0; i < array.length; i++) {
-        const res = callback(array[i])
-        if (res) {
-            index = i
-            break
+    for (let i = 0, {length} = array; i < length; i +=1) {
+        if (callback(array[i])) {
+            return i
         }
     }
-    return index
+    return -1
 }
 // console.log(arrayFindIndex(array1, (item) => item === 'three'))
 
-function arrayFlat(array, deep) {
+function arrayFlat(array, deep = 1) {
     if (deep <= 0) {
         return array.slice()
-    } else {
-        return array.reduce((acc, cur) => acc.concat(Array.isArray(cur) ? arrayFlat(cur, deep - 1) : cur), [])
     }
+    return array.reduce((acc, cur) => acc.concat(Array.isArray(cur) ? arrayFlat(cur, deep - 1) : cur), [])
 }
 // console.log(arrayFlat(deepArr, 2))
 
@@ -94,67 +89,59 @@ function arrayFlatMap(array, callback) {
 // console.log(deepArr2.flatMap(item => 'new '+item))
 
 function arrayForEach(arr, callback) {
-    for (let i = 0; i <arr.length; i++) {
+    for (let i = 0, {length} = arr; i < length; i +=1) {
         callback(arr[i])
     }
-    return undefined
 }
 // arrayForEach(array1, (item => "new " + item))
 
 function arrayIncludes(array, match) {
-    let includes = false
-    for (let i = 0; i < array.length; i++) {
+    for (let i = 0, {length} = array; i < length; i +=1) {
         if (array[i] === match) {
-            includes = true
-            break
+            return true
         }
     }
-    return includes
+    return false
 }
 // console.log(arrayIncludes(array1, 'hello'))
 
 function arrayJoin(array, separator) {
-    separator = separator ? separator : ','
-    let str = ''
+    const newSep = separator ? separator : ','
     if (array.length === 1) {
         return `${array[0]}`
-    } else {
-        for (let i = 0; i < array.length; i++) {
-            str += array[i] + `${i === array.length - 1 ? '' : separator}`
-        }
+    }
+    let str = ''
+    for (let i = 0, {length} = array; i < length; i +=1) {
+        str += array[i] + `${i === array.length - 1 ? '' : newSep}`
     }
     return str
 }
 // console.log(arrayJoin(array1, ' & '))
 
 function arrayLastIndexOf(array, element) {
-    let index = -1
     const startIndex = array.length - 1
     for (let i = startIndex; i >= 0; i--) {
         if (array[i] === element) {
-            index = i
-            break
+            return i
         }
     }
-    return index
+    return -1
 }
 // console.log(arrayLastIndexOf([...array1, 'hello'], 'hello'))
 
 function arrayIndexOf(array, element) {
-    let index = -1
-    for (let i = 0; i < array.length; i++) {
+    for (let i = 0, {length} = array; i < length; i +=1) {
         if (array[i] === element) {
-            index = i
-            break
+            return i
         }
     }
-    return index
+    return -1
 }
 // console.log(arrayIndexOf(array1, 'three'))
 
 function arrayMap(array, callback) {
     const mapped = []
-    for (let i = 0; i < array.length; i++) {
+    for (let i = 0, {length} = array; i < length; i +=1) {
         mapped.push(callback(array[i]))
     }
     return mapped
@@ -164,7 +151,7 @@ function arrayMap(array, callback) {
 function arrayPop(arr) {
     const last = arr[arr.length -1]
     delete arr[arr.length -1]
-    arr = arr.filter(Boolean)
+    arr.length -= 1
     return last
 }
 // console.log(arrayPop(array1))
@@ -176,77 +163,106 @@ function arrayPush(array, element) {
 // console.log(arrayPush(array1, 'world'))
 
 function arrayReverse(arr) {
-    let reversed = []
-    for (let i = arr.length - 1; i >= 0; i--) {
-        reversed = reversed.concat(arr[i])
+    const {length} = arr
+    const iterations = Math.floor(length / 2)
+
+    for (let i = 0; i < iterations; i +=1) {
+        const first = arr[i]
+        arr[i] = arr[length - 1 - i]
+        arr[length - 1 -i] = first
     }
-    return reversed
+    return arr
 }
 // console.log(arrayReverse(array1))
 
 function arrayShift(array) {
-    if (!array.length) {
-        return undefined
-    } else {
+    const { length } = array
+
+    if (length) {
         const first = array[0]
-        delete array[0]
-        array = array.filter(Boolean)
+        for (let i = 1; i < length; i += 1) {
+            array[i - 1] = array[i]
+        }
+        delete array[length -1]
+        array.length -= 1
         return first
     }
 }
 // console.log(arrayShift(array1))
 
 function arraySlice(arr, begin, end) {
-    const sliced = []
+    const { length } = arr
+    let newBegin = begin == null ? 0 : begin
+    let newEnd = end == null ? length - 1 : end
 
-    begin = begin == null ? 0 : begin
-    end = end == null ? arr.length - 1 : end
-
-    begin = begin < 0 ? arr.length + begin : begin
-    end = end < 0 ? arr.length + end : (end > arr.length ? arr.length : end)
-
-    if (begin >= arr.length) {
-        return []
-    } else {
-        for (let i = begin; i < end; i++) {
-            sliced.push(arr[i])
-        }
+    if (newBegin < 0) {
+        newBegin = length + newBegin
     }
 
+    if (newEnd < 0) {
+        newEnd = length + end
+    } else if (newEnd > length) {
+        newEnd = length
+    }
+
+    if (begin >= length) {
+        return []
+    }
+    const sliced = []
+    for (let i = newBegin; i < newEnd; i++) {
+        sliced.push(arr[i])
+    }
     return sliced
 }
 // console.log(arraySlice(array1, 0, -5))
 
 
 function arraySome(arr, callback) {
-    let test = false
-    for (let i = 0; i < arr.length; i++) {
-        const res = callback(arr[i])
-        if (res) {
-            test = true
-            break
+    for (let i = 0, {length} = arr; i < length; i += 1) {
+        if (callback(arr[i])) {
+            return true
         }
     }
-    return test
+    return false
 }
 // console.log(arraySome(array1, (item => item.length > 4)))
 
 function arrayUnshift(arr, ...items) {
-    return items.concat(arr)
+    const {length} = arr
+    const itemsLength = items.length
+    let j = 0
+    for (let i = length; i <= length + itemsLength ; i += 1) {
+        if (j < itemsLength) {
+            arr[i] = items[j]
+            j += 1
+        }
+
+        const existedItem =  arr[i]
+        if (i < itemsLength) {
+            arr.length += 1
+            arr[i] = items[i]
+            arr[i + itemsLength] = existedItem
+        }
+    }
+    return arr
 }
-// console.log(arrayUnshift(array1, 'world','test'))
+console.log(arrayUnshift(array1, 'world','test'))
 
 function arraySplice(arr, begin, count, ...items) {
+    const { length } = arr
+    let newBegin = begin == null ? 0 : begin
+    let newCount = count == null ? length - begin : count
 
-    begin = begin == null ? 0 : begin
-    count = count == null ? arr.length - begin : count
+    if (newBegin < 0) {
+        newBegin = length + newBegin
+    }
+    if (newCount <= 0) {
+        newCount = 0
+    }
 
-    begin = begin < 0 ? arr.length + begin : begin
-    count = count <= 0 ? 0 : count
-
-    const start = arr.slice(0, begin)
-    const deleted = arr.slice(begin, begin + count)
-    const last = arr.slice(begin + count, arr.length)
+    const start = arr.slice(0, newBegin)
+    const deleted = arr.slice(newBegin, newBegin + newCount)
+    const last = arr.slice(newBegin + newCount, length)
     arr = start.concat(items.concat(last))
 
     return deleted
@@ -256,7 +272,8 @@ function arraySplice(arr, begin, count, ...items) {
 function arrayReduce(array, callback, initialValue) {
     let result = initialValue == null ? array[0] : initialValue
     let i = initialValue == null ? 1 : 0
-    for (i; i < array.length; i++) {
+
+    for (i, {length} = array; i < length; i += 1) {
         result = callback(result, array[i])
     }
     return result
@@ -264,9 +281,11 @@ function arrayReduce(array, callback, initialValue) {
 // console.log(arrayReduce(array1, ((acc, cur) => acc + " " + cur)))
 
 function arrayRightReduce(array, callback, initialValue) {
+    const {length} = array
     let result = initialValue == null ? array[0] : initialValue
-    let i = initialValue == null ? array.length - 1  : array.length - 2
-    for (i; i >= 0; i--) {
+    let i = initialValue == null ? length - 1  : length - 2
+
+    for (i; i >= 0; i -= 1) {
         result = callback(result, array[i])
     }
     return result
