@@ -1,35 +1,47 @@
 const arr = ['a', 'b', 'c', 'd'];
 
-let iteratorIndex = 0
+function symbolIterator(array) {
+    let index = 0;
 
-function symbolIterator(arr) {
     return {
         next: () => {
-            let obj
-            if (iteratorIndex < arr.length) {
-                obj = {
-                    value: arr[iteratorIndex],
-                    done: false
-                }
-                iteratorIndex += 1
+            if (index < array.length) {
+                return {value: array[index++], done: false}
             } else {
-                obj = {
-                    value: undefined,
-                    done: true
-                }
+                return {done: true}
             }
-            return obj
         }
     }
 }
 
-const iterator = symbolIterator(arr)
-// console.log(iterator.next())
-// console.log(iterator.next())
-// console.log(iterator.next())
-// console.log(iterator.next())
-// console.log(iterator.next())
+const iterator = symbolIterator(arr);
+console.log('iterator', iterator.next())
+console.log('iterator', iterator.next())
+console.log('iterator', iterator.next())
+console.log('iterator', iterator.next())
+console.log('iterator', iterator.next())
 
-for (const value of iterator) {
-    console.log(value)
+class ArrayValues {
+    constructor(array) {
+        this.array = array;
+    }
+
+    [Symbol.iterator]() {
+        let index = 0;
+
+        return {
+            next: () => {
+                if (index < this.array.length) {
+                    return {value: this.array[index++], done: false}
+                } else {
+                    return {done: true}
+                }
+            }
+        }
+    }
+}
+const values = new ArrayValues(arr)
+
+for (const val of values) {
+    console.log(val);
 }
