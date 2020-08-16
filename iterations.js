@@ -15,11 +15,11 @@ function symbolIterator(array) {
 }
 
 const iterator = symbolIterator(arr);
-console.log('iterator', iterator.next())
-console.log('iterator', iterator.next())
-console.log('iterator', iterator.next())
-console.log('iterator', iterator.next())
-console.log('iterator', iterator.next())
+// console.log('iterator', iterator.next())
+// console.log('iterator', iterator.next())
+// console.log('iterator', iterator.next())
+// console.log('iterator', iterator.next())
+// console.log('iterator', iterator.next())
 
 class ArrayValues {
     constructor(array) {
@@ -42,6 +42,32 @@ class ArrayValues {
 }
 const values = new ArrayValues(arr)
 
-for (const val of values) {
-    console.log(val);
+// for (const val of values) {
+//     console.log(val);
+// }
+
+
+class ArrayKeys {
+    constructor(array) {
+        this.array = array;
+    }
+
+    [Symbol.iterator]() {
+        let index = 0;
+
+        return {
+            next: () => {
+                if (index < this.array.length) {
+                    return {value: index++, done: false}
+                } else {
+                    return {done: true}
+                }
+            }
+        }
+    }
 }
+const keys = new ArrayKeys(arr)
+
+// for (const val of keys) {
+//     console.log(val);
+// }
