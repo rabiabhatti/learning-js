@@ -149,6 +149,7 @@ class CustomSet {
             this.data.splice(index, 1)
             return found
         }
+        return false
     }
 
     size () {
