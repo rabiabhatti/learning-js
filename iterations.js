@@ -151,6 +151,10 @@ class CustomSet {
         }
     }
 
+    size () {
+        return this.data.length
+    }
+
     [Symbol.iterator]() {
         let index = 0;
 
@@ -173,3 +177,5 @@ set.add('world')
 // for (const v of set) {
 //     console.log(v);
 // }
+
+
