@@ -117,3 +117,59 @@ function arrayCopyWithin(arr, target, begin, end) {
 
 
 // console.log(arrayCopyWithin(arr, 1, -4))
+class CustomSet {
+    constructor(data) {
+        this.data = data;
+    }
+
+    add (input) {
+        const found = this.data.find(item => item === input)
+        if (!found) {
+            this.data.push(input)
+        }
+        return this
+    }
+
+    has (input) {
+        const found = this.data.find(item => item === input)
+        return !!found;
+    }
+
+    clear () {
+        while (this.data.length > 0) {
+            this.data.pop();
+        }
+        return this
+    }
+
+    delete (input) {
+        const index = this.data.indexOf(input)
+        if (index !== -1) {
+            const found = this.data[index]
+            this.data.splice(index, 1)
+            return found
+        }
+    }
+
+    [Symbol.iterator]() {
+        let index = 0;
+
+        return {
+            next: () => {
+                if (index < this.data.length) {
+                    return {value: this.data[index++], done: false}
+                } else {
+                    return {done: true}
+                }
+            }
+        }
+    }
+}
+
+const set = new CustomSet(["hello", "test"])
+set.add('world')
+// console.log(set.has('world'))
+// console.log(set.delete('hello'))
+// for (const v of set) {
+//     console.log(v);
+// }
