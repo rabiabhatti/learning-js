@@ -180,3 +180,72 @@ set.add('world')
 // }
 
 
+class CustomMap {
+    constructor(data) {
+        this.data = data;
+    }
+
+    set (key, value) {
+        const found = Object.keys(this.data).find(item => item === key)
+        if (!found) {
+            this.data[key] = value
+        }
+        return this
+    }
+
+    has (key) {
+        const found =  Object.keys(this.data).find(item => item === key)
+        return !!found;
+
+    }
+
+    get (key) {
+        const found =  Object.keys(this.data).find(item => item === key)
+        if (found) {
+            return this.data[key]
+        }
+    }
+
+    clear () {
+        Object.keys(this.data).forEach(key => {
+            delete this.data[key]
+        })
+        return this
+    }
+
+    delete (key) {
+        const found = Object.keys(this.data).find(item => item === key)
+        if (found) {
+            delete this.data[key]
+            return true
+        }
+        return false
+    }
+
+    size () {
+        return Object.keys(this.data).length
+    }
+
+    [Symbol.iterator]() {
+        let index = 0;
+        const keys = Object.keys(this.data)
+
+        return {
+            next: () => {
+                if (index < Object.keys(this.data).length) {
+                    return {value: [keys[index], this.data[keys[index++]]], done: false}
+                } else {
+                    return {done: true}
+                }
+            }
+        }
+    }
+}
+
+const map = new CustomMap({'hello': "world", 'some': "thing"})
+map.set('new', 'property')
+// console.log(map.has('hello'))
+// console.log(map)
+// for (const [key, value] of map) {
+//     console.log(`${key}: ${value}`)
+// }
