@@ -24,15 +24,15 @@ const iterator = symbolIterator(arr);
 class ArrayValues {
     constructor(array) {
         this.array = array;
+        this.index = 0
     }
 
     [Symbol.iterator]() {
-        let index = 0;
 
         return {
             next: () => {
-                if (index < this.array.length) {
-                    return {value: this.array[index++], done: false}
+                if (this.index < this.array.length) {
+                    return {value: this.array[this.index++], done: false}
                 } else {
                     return {done: true}
                 }
@@ -50,15 +50,15 @@ const values = new ArrayValues(arr)
 class ArrayKeys {
     constructor(array) {
         this.array = array;
+        this.index = 0
     }
 
     [Symbol.iterator]() {
-        let index = 0;
 
         return {
             next: () => {
-                if (index < this.array.length) {
-                    return {value: index++, done: false}
+                if (this.index < this.array.length) {
+                    return {value: this.index++, done: false}
                 } else {
                     return {done: true}
                 }
@@ -343,4 +343,4 @@ lruCache.write(4, 'test3')
 lruCache.write(5, 'test4')
 lruCache.write(6, 'test5')
 
-console.log(lruCache)
+// console.log(lruCache)
