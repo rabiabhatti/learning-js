@@ -249,3 +249,98 @@ map.set('new', 'property')
 // for (const [key, value] of map) {
 //     console.log(`${key}: ${value}`)
 // }
+
+
+// LRU cache
+
+class Node {
+    constructor(key, value, next = null, prev = null) {
+        this.key = key
+        this.value = value
+        this.next = next
+        this.prev = prev
+    }
+}
+
+class LRUCache {
+    constructor(TotalLength = 5) {
+        this.currentLength = 0
+        this.TotalLength = TotalLength
+        this.cache = {}
+        this.head = null
+        this.tail = null
+    }
+
+    write (key, value) {
+        this.checkTotalLength()
+
+        if (!this.head) {
+            this.head = new Node(key, value)
+            this.tail = new Node(key, value)
+        } else {
+            const node = new Node(key, value, this.head)
+            this.head.prev = node
+            this.head = node
+        }
+
+        this.cache[key] = this.head
+        this.currentLength += 1
+    }
+
+    read (key) {
+        if (this.cache[key]) {
+            const value = this.cache[key].value
+
+            this.remove(key)
+            this.write(key, value)
+
+            return value
+        }
+    }
+
+    remove(key) {
+        const node = this.cache[key]
+
+        if (node.prev !== null) {
+            node.prev.next = node.next
+        } else {
+            this.head = node.next
+        }
+
+        if (node.next !== null) {
+            node.next.prev = node.prev
+        } else {
+            this.tail = node.prev
+        }
+
+        delete this.cache[key]
+
+        this.currentLength -= 1
+    }
+
+    checkTotalLength () {
+            if (this.currentLength === this.TotalLength) {
+                this.remove(this.tail.key)
+            }
+    }
+
+    clear() {
+        this.head = null;
+        this.tail = null;
+        this.currentLength = 0;
+        this.cache = {};
+    }
+}
+
+
+const lruCache = new LRUCache(5)
+lruCache.write(0, 'hello')
+lruCache.write(1, 'world')
+lruCache.write(2, 'test')
+lruCache.write(3, 'test2')
+lruCache.remove(3)
+lruCache.write(4, 'test3')
+lruCache.write(5, 'test4')
+lruCache.write(6, 'test5')
+
+console.log(lruCache)
