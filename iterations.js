@@ -104,69 +104,63 @@ function arrayCopyWithin(arr, target, begin, end) {
 // console.log(arrayCopyWithin(arr, 1, -4))
 class CustomSet {
     constructor(data) {
-        this.data = data;
+        this.length = 0;
+        this.store = {};
+
+        if (typeof data !== "undefined") {
+            data.forEach((item) => {
+                this.add(item);
+            });
+        }
     }
 
-    add (input) {
-        let found
-        for (let i = 0, {length} = this.data; i < length; i += 1) {
-            const item = this.data[i]
-            if (item === input) {
-                found = item
-                break
-            }
+    add(input) {
+        const symbol = Symbol.for(input);
+
+        if (this.store.hasOwnProperty(symbol)) {
+            return;
+        } else {
+            this.store[symbol] = input;
+            this.length++;
         }
-        if (!found) {
-            this.data.push(input)
-        }
-        return this
     }
 
-    has (input) {
-        for (let i = 0, {length} = this.data; i < length; i += 1) {
-            const item = this.data[i]
-            if (item === input) {
-                return true
-            }
-        }
-        return false;
+    has(input) {
+        return this.store.hasOwnProperty(Symbol.for(input));
     }
 
-    clear () {
-        for (let i = 0, {length} = this.data; i < length; i += 1) {
-            delete this.data[i]
-        }
-        this.data.length = 0
-        return this
+    clear() {
+        this.length = 0;
+        this.store = {};
     }
 
-    delete (input) {
-        for (let i = 0, {length} = this.data; i < length; i += 1) {
-            const item = this.data[i]
-            if (item === input) {
-                delete this.data[i]
-                return item
-            }
+    delete(input) {
+        const symbol = Symbol.for(input);
+        if (this.store.hasOwnProperty(symbol)) {
+            this.length--;
+            delete this.store[symbol];
         }
-        return false
     }
 
-    size () {
-        return this.data.length
+    size() {
+        return this.length;
+    }
+
+    values() {
+        return this[Symbol.iterator]();
     }
 
     [Symbol.iterator]() {
-        let index = 0;
+        const keys = Object.getOwnPropertySymbols(this.store);
 
         return {
             next: () => {
-                if (index < this.data.length) {
-                    return {value: this.data[index++], done: false}
-                } else {
-                    return {done: true}
+                if (keys.length) {
+                    return { value: this.store[keys.pop()], done: false };
                 }
-            }
-        }
+                return { value: undefined, done: true };
+            },
+        };
     }
 }
 
