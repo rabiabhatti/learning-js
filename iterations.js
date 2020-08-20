@@ -17,55 +17,44 @@ function symbolIterator(array) {
 const iterator = symbolIterator(arr);
 // console.log('iterator', iterator.next())
 
-class ArrayValues {
-    constructor(array) {
-        this.array = array;
-        this.index = 0
-    }
-
-    [Symbol.iterator]() {
-
+const arrayValues = {
+    array: ['a', 'b', 'c', 'd'],
+    [Symbol.iterator]: function () {
+        let index = 0;
         return {
             next: () => {
-                if (this.index < this.array.length) {
-                    return {value: this.array[this.index++], done: false}
+                if (index < this.array.length) {
+                    return {value: this.array[index++], done: false}
                 } else {
                     return {done: true}
                 }
             }
         }
     }
-}
-const values = new ArrayValues(arr)
+};
 
-// for (const val of values) {
-//     console.log(val);
+// for (const value of arrayValues) {
+//     console.log(value)
 // }
 
-
-class ArrayKeys {
-    constructor(array) {
-        this.array = array;
-        this.index = 0
-    }
-
-    [Symbol.iterator]() {
-
+const arrayKeys = {
+    array: ['a', 'b', 'c', 'd'],
+    [Symbol.iterator]: function () {
+        let index = 0;
         return {
             next: () => {
-                if (this.index < this.array.length) {
-                    return {value: this.index++, done: false}
+                if (index < this.array.length) {
+                    return {value: index++, done: false}
                 } else {
                     return {done: true}
                 }
             }
         }
     }
-}
-const keys = new ArrayKeys(arr)
+};
 
-// for (const val of keys) {
-//     console.log(val);
+// for (const value of arrayKeys) {
+//     console.log(value)
 // }
 
 function arrayCopyWithin(arr, target, begin, end) {
