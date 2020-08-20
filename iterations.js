@@ -346,6 +346,14 @@ class LRUCache {
         this.currentLength = 0;
         this.cache = {};
     }
+
+    *[Symbol.iterator]() {
+        let node = this.head;
+        while (node) {
+            yield node;
+            node = node.next;
+        }
+    }
 }
 
 
