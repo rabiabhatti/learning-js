@@ -371,4 +371,7 @@ lruCache.write(4, 'test3')
 lruCache.write(5, 'test4')
 lruCache.write(6, 'test5')
 
-console.log(lruCache)
+// console.log(lruCache)
+for (const item of lruCache) {
+    console.log(item)
+}
