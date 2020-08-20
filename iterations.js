@@ -201,30 +201,40 @@ class CustomMap {
     }
 
     has (key) {
-        const found =  Object.keys(this.data).find(item => item === key)
-        return !!found;
+        for (let i = 0, {length} = Object.keys(this.data); i < length; i += 1) {
+            const item = Object.keys(this.data)[i]
+            if (item === key) {
+                return true
+            }
+        }
+        return false;
 
     }
 
     get (key) {
-        const found =  Object.keys(this.data).find(item => item === key)
-        if (found) {
-            return this.data[key]
+        for (let i = 0, {length} = Object.keys(this.data); i < length; i += 1) {
+            const item = Object.keys(this.data)[i]
+            if (item === key) {
+                return this.data[key]
+            }
         }
     }
 
     clear () {
-        Object.keys(this.data).forEach(key => {
-            delete this.data[key]
-        })
+        for (let i = 0, {length} = Object.keys(this.data); i < length; i += 1) {
+            delete this.data[i]
+        }
         return this
     }
 
     delete (key) {
-        const found = Object.keys(this.data).find(item => item === key)
-        if (found) {
-            delete this.data[key]
-            return true
+        for (let i = 0, {length} = Object.keys(this.data); i < length; i += 1) {
+            const item = this.data[i]
+            if (item === key) {
+                const value = this.data[key]
+                delete this.data[key]
+                return value
+            }
         }
         return false
     }
