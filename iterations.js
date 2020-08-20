@@ -16,10 +16,6 @@ function symbolIterator(array) {
 
 const iterator = symbolIterator(arr);
 // console.log('iterator', iterator.next())
-// console.log('iterator', iterator.next())
-// console.log('iterator', iterator.next())
-// console.log('iterator', iterator.next())
-// console.log('iterator', iterator.next())
 
 class ArrayValues {
     constructor(array) {
