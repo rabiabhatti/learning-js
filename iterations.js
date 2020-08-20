@@ -17,43 +17,54 @@ function symbolIterator(array) {
 const iterator = symbolIterator(arr);
 // console.log('iterator', iterator.next())
 
-const arrayValues = {
-    array: ['a', 'b', 'c', 'd'],
-    [Symbol.iterator]: function () {
-        let index = 0;
-        return {
-            next: () => {
-                if (index < this.array.length) {
-                    return {value: this.array[index++], done: false}
-                } else {
-                    return {done: true}
+
+function arrayValues(array) {
+    let index = 0;
+    const {length} = array
+
+    return {
+        [Symbol.iterator]: function () {
+            return {
+                next: () => {
+                    if (index < length) {
+                        return {value: array[index++], done: false}
+                    } else {
+                        return {value: undefined, done: true}
+                    }
                 }
             }
         }
     }
-};
+}
+const values = arrayValues(arr)
 
-// for (const value of arrayValues) {
+// for (const value of values) {
 //     console.log(value)
 // }
 
-const arrayKeys = {
-    array: ['a', 'b', 'c', 'd'],
-    [Symbol.iterator]: function () {
-        let index = 0;
-        return {
-            next: () => {
-                if (index < this.array.length) {
-                    return {value: index++, done: false}
-                } else {
-                    return {done: true}
+function arrayKeys(array) {
+    let index = 0;
+    const {length} = array
+
+    return {
+        [Symbol.iterator]: function () {
+
+            return {
+                next: () => {
+                    if (index < length) {
+                        return {value: index++, done: false}
+                    } else {
+                        return {value: undefined, done: true}
+                    }
                 }
             }
         }
     }
 };
 
-// for (const value of arrayKeys) {
+const keys = arrayKeys(arr)
+
+// for (const value of keys) {
 //     console.log(value)
 // }
 
@@ -248,12 +259,12 @@ class CustomMap {
 
 const map = new CustomMap({'hello': "world", 'hello': "world3", 'some': "thing"})
 map.set('new', 'property')
-console.log(map.has('hello'))
-console.log(map.get('hello'))
+// console.log(map.has('hello'))
+// console.log(map.get('hello'))
 // console.log(map)
-for (const item of map) {
-    console.log(item)
-}
+// for (const item of map) {
+//     console.log(item)
+// }
 
 
 // LRU cache
