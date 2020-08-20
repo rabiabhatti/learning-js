@@ -164,10 +164,11 @@ class CustomSet {
     }
 }
 
-const set = new CustomSet(["hello", "test"])
+const set = new CustomSet(["hello", "hello", "test"])
 set.add('world')
 // console.log(set.has('world'))
 // console.log(set.delete('hello'))
+// console.log(set)
 // for (const v of set) {
 //     console.log(v);
 // }
@@ -175,75 +176,68 @@ set.add('world')
 
 class CustomMap {
     constructor(data) {
-        this.data = data;
+        this.length = 0
+        this.store = {}
+
+        if (typeof data !== 'undefined') {
+            Object.keys(data).forEach(key => this.set(key, data[key]))
+        }
     }
 
     set (key, value) {
-        let found
-        for (let i = 0, {length} = Object.keys(this.data); i < length; i += 1) {
-            const item = Object.keys(this.data)[i]
-            if (item === key) {
-                found = this.data[key]
-                break
-            }
+        const symbol = Symbol.for(key);
+
+        if (this.store.hasOwnProperty(symbol)) {
+            return;
+        } else {
+            this.store[symbol] = {key, value};
+            this.length++;
         }
-        if (!found) {
-            this.data[key] = value
-        }
-        return this
     }
 
     has (key) {
-        for (let i = 0, {length} = Object.keys(this.data); i < length; i += 1) {
-            const item = Object.keys(this.data)[i]
-            if (item === key) {
-                return true
-            }
-        }
-        return false;
-
+        return this.store.hasOwnProperty(Symbol.for(key))
     }
 
     get (key) {
-        for (let i = 0, {length} = Object.keys(this.data); i < length; i += 1) {
-            const item = Object.keys(this.data)[i]
-            if (item === key) {
-                return this.data[key]
-            }
+        const symbol = Symbol.for(key);
+        const found = this.store.hasOwnProperty(symbol);
+
+        if (found) {
+            return this.store[symbol]
         }
     }
 
     clear () {
-        for (let i = 0, {length} = Object.keys(this.data); i < length; i += 1) {
-            delete this.data[i]
-        }
-        return this
+        this.store = {}
+        this.length = 0
     }
 
     delete (key) {
-        for (let i = 0, {length} = Object.keys(this.data); i < length; i += 1) {
-            const item = this.data[i]
-            if (item === key) {
-                const value = this.data[key]
-                delete this.data[key]
-                return value
-            }
+        const symbol = Symbol.for(key);
+        const found = this.store.hasOwnProperty(symbol);
+
+        if (found) {
+            const value = this.store[symbol]
+            delete this.store[symbol]
+            this.length--
+            return value
         }
         return false
     }
 
     size () {
-        return Object.keys(this.data).length
+        return this.length
     }
 
     [Symbol.iterator]() {
         let index = 0;
-        const keys = Object.keys(this.data)
+        const keys = Object.getOwnPropertySymbols(this.store);
 
         return {
             next: () => {
-                if (index < Object.keys(this.data).length) {
-                    return {value: [keys[index], this.data[keys[index++]]], done: false}
+                if (index < keys.length) {
+                    return {value: this.store[keys[index++]], done: false}
                 } else {
                     return {done: true}
                 }
@@ -252,13 +246,14 @@ class CustomMap {
     }
 }
 
-const map = new CustomMap({'hello': "world", 'some': "thing"})
+const map = new CustomMap({'hello': "world", 'hello': "world3", 'some': "thing"})
 map.set('new', 'property')
-// console.log(map.has('hello'))
+console.log(map.has('hello'))
+console.log(map.get('hello'))
 // console.log(map)
-// for (const [key, value] of map) {
-//     console.log(`${key}: ${value}`)
-// }
+for (const item of map) {
+    console.log(item)
+}
 
 
 // LRU cache
@@ -366,6 +361,6 @@ lruCache.write(5, 'test4')
 lruCache.write(6, 'test5')
 
 // console.log(lruCache)
-for (const item of lruCache) {
-    console.log(item)
-}
+// for (const item of lruCache) {
+//     console.log(item)
+// }
