@@ -108,7 +108,14 @@ class CustomSet {
     }
 
     add (input) {
-        const found = this.data.find(item => item === input)
+        let found
+        for (let i = 0, {length} = this.data; i < length; i += 1) {
+            const item = this.data[i]
+            if (item === input) {
+                found = item
+                break
+            }
+        }
         if (!found) {
             this.data.push(input)
         }
@@ -178,7 +185,14 @@ class CustomMap {
     }
 
     set (key, value) {
-        const found = Object.keys(this.data).find(item => item === key)
+        let found
+        for (let i = 0, {length} = Object.keys(this.data); i < length; i += 1) {
+            const item = Object.keys(this.data)[i]
+            if (item === key) {
+                found = this.data[key]
+                break
+            }
+        }
         if (!found) {
             this.data[key] = value
         }
