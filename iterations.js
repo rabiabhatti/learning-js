@@ -131,23 +131,30 @@ class CustomSet {
     }
 
     has (input) {
-        const found = this.data.find(item => item === input)
-        return !!found;
+        for (let i = 0, {length} = this.data; i < length; i += 1) {
+            const item = this.data[i]
+            if (item === input) {
+                return true
+            }
+        }
+        return false;
     }
 
     clear () {
-        while (this.data.length > 0) {
-            this.data.pop();
+        for (let i = 0, {length} = this.data; i < length; i += 1) {
+            delete this.data[i]
         }
+        this.data.length = 0
         return this
     }
 
     delete (input) {
-        const index = this.data.indexOf(input)
-        if (index !== -1) {
-            const found = this.data[index]
-            this.data.splice(index, 1)
-            return found
+        for (let i = 0, {length} = this.data; i < length; i += 1) {
+            const item = this.data[i]
+            if (item === input) {
+                delete this.data[i]
+                return item
+            }
         }
         return false
     }
