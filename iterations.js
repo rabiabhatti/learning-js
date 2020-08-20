@@ -304,13 +304,14 @@ class LRUCache {
     }
 
     read (key) {
-        if (this.cache[key]) {
-            const value = this.cache[key].value
-
-            this.remove(key)
-            this.write(key, value)
-
-            return value
+        for (let i = 0, {length} = Object.keys(this.cache); i < length; i += 1) {
+            const item = Object.keys(this.cache)[i]
+            if (item === key) {
+                const value = this.cache[key].value
+                this.remove(key)
+                this.write(key, value)
+                return value
+            }
         }
     }
 
@@ -335,16 +336,19 @@ class LRUCache {
     }
 
     checkTotalLength () {
-            if (this.currentLength === this.TotalLength) {
-                this.remove(this.tail.key)
-            }
+        if (this.currentLength >= this.TotalLength) {
+            this.remove(this.tail.key)
+        }
     }
 
     clear() {
         this.head = null;
         this.tail = null;
         this.currentLength = 0;
-        this.cache = {};
+
+        for (let i = 0, {length} = Object.keys(this.cache); i < length; i += 1) {
+            delete this.cache[i]
+        }
     }
 
     *[Symbol.iterator]() {
@@ -367,4 +371,4 @@ lruCache.write(4, 'test3')
 lruCache.write(5, 'test4')
 lruCache.write(6, 'test5')
 
-// console.log(lruCache)
+console.log(lruCache)
