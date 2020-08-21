@@ -90,11 +90,11 @@ function arrayCopyWithin(arr, target, begin, end) {
     if (newEnd < 0) {
         newEnd = length + end
     } else if (newEnd > length) {
-        newEnd = length
+        newEnd = length - 1
     }
 
     if (newTarget >= length) {
-        return arr
+        return arr.slice()
     }
 
     const sliced = arr.slice(newBegin, newEnd)
@@ -289,50 +289,62 @@ class LRUCache {
 
     write (key, value) {
         this.checkTotalLength()
+        const symbol = Symbol.for(key);
 
         if (!this.head) {
-            this.head = new Node(key, value)
-            this.tail = new Node(key, value)
+            const node = new Node(symbol, value)
+            this.head = node
+            this.tail = node
         } else {
-            const node = new Node(key, value, this.head)
+            const node = new Node(symbol, value, this.head)
             this.head.prev = node
             this.head = node
         }
 
-        this.cache[key] = this.head
-        this.currentLength += 1
+        this.cache[symbol] = this.head
+        this.currentLength++
     }
 
     read (key) {
-        for (let i = 0, {length} = Object.keys(this.cache); i < length; i += 1) {
-            const item = Object.keys(this.cache)[i]
-            if (item === key) {
-                const value = this.cache[key].value
-                this.remove(key)
-                this.write(key, value)
-                return value
-            }
+        const symbol = Symbol.for(key);
+        const found = this.cache.hasOwnProperty(symbol);
+
+        if (found) {
+            const value = this.cache[symbol].value
+            this.remove(key)
+            this.write(key, value)
         }
     }
 
     remove(key) {
-        const node = this.cache[key]
+        let customKey = key
 
-        if (node.prev !== null) {
-            node.prev.next = node.next
-        } else {
-            this.head = node.next
+        if (typeof key !== 'symbol') {
+            customKey = Symbol.for(key);
         }
+        const found = this.cache.hasOwnProperty(customKey);
 
-        if (node.next !== null) {
-            node.next.prev = node.prev
-        } else {
-            this.tail = node.prev
+        if (found) {
+            const node = this.cache[customKey]
+
+            // console.log('node', node)
+
+            if (node.prev !== null) {
+                node.prev.next = node.next
+            } else {
+                this.head = node.next
+            }
+
+            if (node.next !== null) {
+                node.next.prev = node.prev
+            } else {
+                this.tail = node.prev
+            }
+
+            delete this.cache[customKey]
+
+            this.currentLength--
         }
-
-        delete this.cache[key]
-
-        this.currentLength -= 1
     }
 
     checkTotalLength () {
@@ -342,13 +354,14 @@ class LRUCache {
     }
 
     clear() {
+        this.cache = {}
         this.head = null;
         this.tail = null;
         this.currentLength = 0;
+    }
 
-        for (let i = 0, {length} = Object.keys(this.cache); i < length; i += 1) {
-            delete this.cache[i]
-        }
+    size () {
+        return this.currentLength
     }
 
     *[Symbol.iterator]() {
@@ -362,16 +375,17 @@ class LRUCache {
 
 
 const lruCache = new LRUCache(5)
-lruCache.write(0, 'hello')
-lruCache.write(1, 'world')
-lruCache.write(2, 'test')
-lruCache.write(3, 'test2')
+lruCache.write(0, 'index 0')
+lruCache.write(1, 'index 1')
+lruCache.write(2, 'index 2')
+lruCache.write(3, 'index 3')
 lruCache.remove(3)
-lruCache.write(4, 'test3')
-lruCache.write(5, 'test4')
-lruCache.write(6, 'test5')
+lruCache.write(4, 'index 4')
+lruCache.write(5, 'index 5')
+lruCache.write(6, 'index 6')
+lruCache.read(4)
 
-// console.log(lruCache)
+console.log(lruCache.cache)
 // for (const item of lruCache) {
 //     console.log(item)
 // }
