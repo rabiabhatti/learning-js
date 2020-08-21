@@ -327,8 +327,6 @@ class LRUCache {
         if (found) {
             const node = this.cache[customKey]
 
-            // console.log('node', node)
-
             if (node.prev !== null) {
                 node.prev.next = node.next
             } else {
