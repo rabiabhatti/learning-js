@@ -80,6 +80,6 @@ lruCache.write('index 5')
 lruCache.read('index 4')
 
 console.log(lruCache.cache)
-// for (const item of lruCache.cache) {
-//     console.log(item)
-// }
+for (const item of lruCache.cache) {
+    console.log(item)
+}
