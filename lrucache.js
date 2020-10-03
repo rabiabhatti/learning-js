@@ -8,27 +8,26 @@ class LRUCache {
     }
 
     write (input) {
-        this.checkTotalLength()
+        const index = this.cache.indexOf(input)
+        if (index === -1) {
+            this.checkTotalLength()
+        }
+        this.remove(input)
         this.cache.unshift(input)
         this.currentLength++
     }
 
     read (input) {
-        const cacheCopy = this.cache.slice()
-        const index = this.cache.indexOf(input)
-
-        if (index > -1) {
-            cacheCopy.splice(index, 1)
-            cacheCopy.unshift(input)
-            this.cache = cacheCopy
-        }
+        this.remove(input)
+        this.cache.unshift(input)
+        this.currentLength++
     }
 
     remove(input) {
         const index = this.cache.indexOf(input)
-        const cacheCopy = this.cache.slice()
 
         if (index > -1) {
+            const cacheCopy = this.cache.slice()
             cacheCopy.splice(index, 1)
             this.cache = cacheCopy
             this.currentLength--
@@ -74,11 +73,13 @@ lruCache.write( 'index 2')
 lruCache.write('index 3')
 lruCache.remove('index 2')
 lruCache.write( 'index 4')
+lruCache.write('index 3')
 lruCache.write('index 5')
 lruCache.write('index 6')
+lruCache.write('index 5')
 lruCache.read('index 4')
 
 console.log(lruCache.cache)
-for (const item of lruCache.cache) {
-    console.log(item)
-}
+// for (const item of lruCache.cache) {
+//     console.log(item)
+// }
