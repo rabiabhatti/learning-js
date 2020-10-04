@@ -279,9 +279,9 @@ class Node {
 }
 
 class LRUCache {
-    constructor(TotalLength = 5) {
+    constructor(totalLength = 5) {
         this.currentLength = 0
-        this.TotalLength = TotalLength
+        this.totalLength = totalLength
         this.cache = {}
         this.head = null
         this.tail = null
@@ -289,43 +289,36 @@ class LRUCache {
 
     write (key, value) {
         this.checkTotalLength()
-        const symbol = Symbol.for(key);
 
         if (!this.head) {
-            const node = new Node(symbol, value)
+            const node = new Node(key, value)
             this.head = node
             this.tail = node
         } else {
-            const node = new Node(symbol, value, this.head)
+            const node = new Node(key, value, this.head)
             this.head.prev = node
             this.head = node
         }
 
-        this.cache[symbol] = this.head
+        this.cache[key] = this.head
         this.currentLength++
     }
 
     read (key) {
-        const symbol = Symbol.for(key);
-        const found = this.cache.hasOwnProperty(symbol);
+        const found = this.cache.hasOwnProperty(key);
 
         if (found) {
-            const value = this.cache[symbol].value
+            const value = this.cache[key].value
             this.remove(key)
             this.write(key, value)
         }
     }
 
     remove(key) {
-        let customKey = key
-
-        if (typeof key !== 'symbol') {
-            customKey = Symbol.for(key);
-        }
-        const found = this.cache.hasOwnProperty(customKey);
+        const found = this.cache.hasOwnProperty(key);
 
         if (found) {
-            const node = this.cache[customKey]
+            const node = this.cache[key]
 
             if (node.prev !== null) {
                 node.prev.next = node.next
@@ -339,14 +332,14 @@ class LRUCache {
                 this.tail = node.prev
             }
 
-            delete this.cache[customKey]
+            delete this.cache[key]
 
             this.currentLength--
         }
     }
 
     checkTotalLength () {
-        if (this.currentLength >= this.TotalLength) {
+        if (this.currentLength >= this.totalLength) {
             this.remove(this.tail.key)
         }
     }
