@@ -16,18 +16,13 @@ class LRUCache {
             this.head = node
         } else {
             const cache = this.head
-            const oldHead = cache.head
-            const oldTail = cache
             const node = {
                 key,
                 value,
-                head: null,
-                tail: oldHead,
             }
             this.head = node
-            // cache.head = node
+            cache.head = node
             this.head.tail = cache
-            console.log('oldTail', key, this.head)
         }
     }
 
