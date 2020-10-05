@@ -29,7 +29,7 @@ class LRUCache {
 
         if (found) {
             const value = found.value
-            this.remove(key)
+            this.removeNode(found)
             this.makeNewHead(key, value)
         }
     }
@@ -38,19 +38,22 @@ class LRUCache {
         const node = this.checkForExisting(key)
 
         if (node) {
-            if (node.prev !== null) {
-                node.prev.next = node.next
-            } else {
-                this.head = node.next
-            }
-
-            if (node.next !== null) {
-                node.next.prev = node.prev
-            } else {
-                this.tail = node.prev
-            }
-            this.currentLength--
+            this.removeNode(node)
         }
+    }
+    removeNode (node) {
+        if (node.prev !== null) {
+            node.prev.next = node.next
+        } else {
+            this.head = node.next
+        }
+
+        if (node.next !== null) {
+            node.next.prev = node.prev
+        } else {
+            this.tail = node.prev
+        }
+        this.currentLength--
     }
 
     makeNewHead (key, value) {
@@ -84,7 +87,7 @@ class LRUCache {
 
     checkTotalLength () {
         if (this.currentLength >= this.totalLength) {
-            this.remove(this.tail.key)
+            this.removeNode(this.tail)
         }
     }
 
