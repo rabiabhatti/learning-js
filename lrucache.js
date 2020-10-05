@@ -1,12 +1,3 @@
-class Node {
-    constructor(key, value, next = null, prev = null) {
-        this.key = key
-        this.value = value
-        this.next = next
-        this.prev = prev
-    }
-}
-
 class LRUCache {
     constructor(totalLength = 5) {
         this.currentLength = 0
@@ -16,19 +7,21 @@ class LRUCache {
     }
 
     write (key, value) {
-        this.checkTotalLength()
 
         if (!this.head) {
-            const node = new Node(key, value)
+            const node = {
+                key,
+                value,
+                next: null,
+                prev: null
+            }
             this.head = node
             this.tail = node
+            this.currentLength++
         } else {
-            const node = new Node(key, value, this.head)
-            this.head.prev = node
-            this.head = node
+            this.remove(key)
+            this.makeNewHead(key, value)
         }
-
-        this.currentLength++
     }
 
     read (key) {
@@ -37,7 +30,7 @@ class LRUCache {
         if (found) {
             const value = found.value
             this.remove(key)
-            this.write(key, value)
+            this.makeNewHead(key, value)
         }
     }
 
@@ -60,16 +53,31 @@ class LRUCache {
         }
     }
 
+    makeNewHead (key, value) {
+        const node = {
+            key,
+            value,
+            next: this.head,
+            prev: null
+        }
+        this.head.prev = node
+        this.head = node
+        this.currentLength++
+        this.checkTotalLength()
+    }
+
     checkForExisting(key) {
         let node = this.head
         let found
-        do {
-            if (key === node.key) {
-                found = node
-                break
-            }
-            node = node.next
-        } while (node.next !== null)
+        if (node.next) {
+            do {
+                if (key === node.key) {
+                    found = node
+                    break
+                }
+                node = node.next
+            } while (node.next !== null)
+        }
 
         return found
     }
