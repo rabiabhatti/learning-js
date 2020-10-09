@@ -123,4 +123,23 @@ function mathMax(args) {
 
     return max
 }
-console.log(mathMax([3, 123, -454, 546]))
+// console.log(mathMax([3, 123, -454, 546]))
+
+function mathSign(input) {
+    if (typeof input === 'number') {
+
+        if (input > 0) {
+            return 1
+        }
+
+        if (input < 0) {
+            return -1
+        }
+
+        return input
+    }
+
+    return 'NaN'
+}
+
+console.log(mathSign(-19))
