@@ -147,9 +147,7 @@ function mathSign(input) {
 
 function mathTrunc(input) {
     if (typeof input === 'number') {
-        const str = input.toString()
-        const strInt = str.split('.')[0]
-        return parseInt(strInt, 10)
+        return input - (input%1)
     }
 }
-// console.log(mathTrunc(3.14))
+console.log(mathTrunc(3.14))
