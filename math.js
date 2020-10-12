@@ -30,7 +30,8 @@ function mathTrunc(input) {
 
     return NaN
 }
-// console.log(mathTrunc(-4.13))
+// console.log(mathTrunc(-Math.PI))
+// console.log(Math.trunc(-Math.PI))
 
 function mathAbs(input) {
     if (!input || input === '' || (Array.isArray(input) && !input.length)) {
@@ -48,8 +49,8 @@ function mathAbs(input) {
     }
     return NaN
 }
-// console.log(mathAbs([-3.5346546]))
-// console.log(mathAbs('-1'))
+// console.log(mathAbs(-Math.PI))
+// console.log(Math.abs(-Math.PI))
 
 
 function mathCeil(input) {
@@ -75,8 +76,8 @@ function mathCeil(input) {
 
     return NaN
 }
-// console.log(mathCeil([-7.94]))
-// console.log(mathCeil(null))
+// console.log(mathCeil(-Math.PI))
+// console.log(Math.ceil(-Math.PI))
 
 
 function mathFloor(input) {
@@ -98,8 +99,8 @@ function mathFloor(input) {
 
     return NaN
 }
-// console.log(mathFloor([-5.05]))
-// console.log(mathFloor(null))
+// console.log(mathFloor(-Math.PI))
+// console.log(Math.floor(-Math.PI))
 
 
 function mathRound(input) {
@@ -126,8 +127,8 @@ function mathRound(input) {
     return NaN
 }
 
-// console.log(mathRound(20.49))
-// console.log(mathRound(20.5))
+// console.log(mathRound(-Math.PI))
+// console.log(Math.round(-Math.PI))
 // console.log(mathRound(42))
 // console.log(mathRound(-5.95))
 // console.log(mathRound(-5.5))
@@ -138,7 +139,7 @@ function mathMin(args) {
         return Infinity
     }
 
-    let result = NaN
+    let result = convertToNumber(args[0])
 
     args.reduce((acc, curr) => {
         const accumulator = convertToNumber(acc)
@@ -156,13 +157,15 @@ function mathMin(args) {
 }
 // console.log(mathMin([0, 'fs1', 2, '3dsa', 100, 'fsdf', -10]))
 // console.log(mathMin([-11, 2, -3, -4.45346]))
+// console.log(mathMin([Math.PI]))
+// console.log(Math.min(Math.PI))
 
 function mathMax(args) {
     if (!args) {
         return -Infinity
     }
 
-    let result = NaN
+    let result = convertToNumber(args[0])
 
     args.reduce((acc, curr) => {
         const accumulator = convertToNumber(acc)
@@ -177,6 +180,8 @@ function mathMax(args) {
 
     return result
 }
+// console.log(mathMax([Math.PI]))
+// console.log(Math.max(Math.PI))
 // console.log(mathMax(['fs1', 2, '3dsa', 100, 'fsdf', 30, '700']))
 // console.log(mathMax([3, 123, -454, 546]))
 
@@ -200,5 +205,5 @@ function mathSign(input) {
     return NaN
 }
 
-// console.log(mathSign(-0))
-// console.log(mathSign(19))
+// console.log(mathSign(-Math.PI))
+// console.log(Math.sign(-Math.PI))
