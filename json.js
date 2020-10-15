@@ -6,8 +6,8 @@ function isObject(o) {
     return o && Object.prototype.toString.call(o) === '[object Object]'
 }
 
-const seen = []
 function checkForCircular(obj) {
+    const seen = []
     if (typeof obj === 'object') {
         seen.push(obj)
         for (const value of Object.values(obj)) {
