@@ -153,37 +153,151 @@ function jsonStringify(input, replacer, space) {
 }
 
 
+
+
+
+
 function jsonParse(input, reviver) {
-    let js = new Function("return " + input)()
 
     function filter(holder, key) {
         let k
         let v
         const value = holder[key]
-        if (value && typeof value === "object") {
-            for (k in value) {
-                if (Object.prototype.hasOwnProperty.call(value, k)) {
-                    v = filter(value, k)
-                    if (v) {
-                        value[k] = v
-                    } else {
-                        delete value[k]
-                    }
+        for (k in value) {
+            if (Object.prototype.hasOwnProperty.call(value, k)) {
+                v = filter(value, k)
+                if (v) {
+                    value[k] = v
+                } else {
+                    delete value[k]
                 }
             }
         }
         return reviver.call(holder, key, value)
     }
 
-    if (js) {
-        if (isFunction(reviver)) {
-            js = filter({"": js}, "")
+    if (input === 'null') {
+        return null
+    }
+
+    const isBoolean = Boolean(input)
+    if (isBoolean) {
+        if (input === 'true') {
+            return true
         }
-        return js
+        if (input === 'false') {
+            return false
+        }
+    }
+
+    const number = Number(input)
+    if (!isNaN(number)) {
+        return number
+    }
+
+    const trimmed = input.slice(1,-1)
+
+    const isArray = input[0] === '['
+    if (isArray) {
+        if (trimmed === '') {
+            return []
+        }
+
+        const arr = []
+        const res = []
+        let list
+        const nested = trimmed.split('[')
+
+        if (nested.length > 1) {
+            let first = nested.shift().split(',').filter(item => item !== ' ')
+
+            const firstIndex = trimmed.indexOf('[')
+            const lastIndex = trimmed.lastIndexOf(']')
+
+            const middleString = trimmed.slice(firstIndex, lastIndex + 1)
+
+            arr.push(middleString)
+
+            if (lastIndex + 1 < trimmed.length - 1) {
+                const remainingItems = trimmed.slice(lastIndex + 2 ).split(',')
+                first = [...first, ...remainingItems]
+            }
+            list = first
+
+        } else {
+            list = trimmed.split(',')
+        }
+
+        for (const item of list) {
+            if (item.trim() === ',' || item.trim() === '') {
+                return "Invalid parse"
+            }
+            arr.push(jsonParse(item))
+        }
+
+        for (const item of arr) {
+            res.push(jsonParse(item))
+        }
+
+        return res
     }
 
 
-    throw new SyntaxError("Invalid parse")
+    const isObj = input[0] === '{'
+    if (isObj) {
+
+        if (trimmed === '') {
+            return {}
+        }
+
+        let obj = {}
+        let res = {}
+        let list = []
+        let nested = trimmed.split('{')
+
+        if (nested.length > 1) {
+            let first = nested.shift().split(',')
+            const nextKey = first.pop().split(':')[0].trim()
+
+            const firstIndex = trimmed.indexOf('{')
+            const lastIndex = trimmed.lastIndexOf('}')
+            obj[nextKey] = trimmed.slice(firstIndex, lastIndex + 1)
+
+            if (lastIndex + 1 < trimmed.length - 1) {
+                const remainingItems = trimmed.slice(lastIndex + 2 ).split(',')
+                first = [...first, ...remainingItems]
+            }
+            list = [...first]
+
+        } else {
+            list = trimmed.split(',')
+        }
+
+        for (const item of list) {
+            if (item.trim() === ',' || item.trim() === '') {
+                return "Invalid parse"
+            }
+            const temp = item.split(':')
+            const key = jsonParse(temp[0])
+            obj[key] = jsonParse(temp[1])
+        }
+
+        for (const [key, value] of Object.entries(obj)) {
+            res[jsonParse(key)] = jsonParse(value)
+        }
+
+        if (isFunction(reviver)) {
+            res = filter({"": res}, "")
+        }
+        return res
+    }
+
+    if (input.indexOf("'") !== -1) {
+        return "Invalid parse"
+    }
+
+    return input.trim().split('"').join('')
+
 }
 // console.log(jsonParse('{"p": 5}', (key, value) =>
 //     typeof value === 'number'
@@ -191,4 +305,4 @@ function jsonParse(input, reviver) {
 //         : value
 // ))
 // console.log(jsonParse('{"1": 1, "2": 2, "3": {"4": 4, "5": {"6": 6}}, "7": 7}'))
-// console.log(jsonParse('[1, 2, 3, 4, ]'))
+// console.log(jsonParse('[1, 2, 3, 4, [5, [6]], {"7": "hello"}]'))
