@@ -13,7 +13,7 @@ function checkForCircular(obj) {
         for (const value of Object.values(obj)) {
             if (typeof value === "object" && value !== null) {
                 if (seen.includes(value)) {
-                    return "Converting circular structure to JSON"
+                    return "circular"
                 }
                 seen.push(value)
             }
@@ -25,11 +25,12 @@ function getSpacing(space) {
     let spacing = space ? (typeof space === 'number' ? (space >= 10 ? 10 : space) : space) : null
 
     let str = ''
+
     if (typeof spacing === 'number') {
         for (let i = 0; i < spacing; i++) {
             str += " "
         }
-    } else {
+    } else if (typeof spacing === 'string') {
         str = spacing
     }
     return str
@@ -37,7 +38,7 @@ function getSpacing(space) {
 
 function jsonStringify(input, replacer, space) {
     const circular = checkForCircular(input)
-    if (circular === "Converting circular structure to JSON") {
+    if (circular === "circular") {
         return "Converting circular structure to JSON"
     }
 
@@ -62,9 +63,22 @@ function jsonStringify(input, replacer, space) {
     }
 
     if (Array.isArray(input) || input instanceof Array) {
+        let arr = []
         let res = space ? `[\n` :  "["
-        for (let i = 0, {length} = input; i < length; i++) {
-            const value = jsonStringify(input[i])
+
+        if (replacer && isFunction(replacer)) {
+            for (let i = 0, {length} = input; i < length; i++) {
+                const result = replacer(i, input[i])
+                if (result) {
+                    arr.push(result)
+                }
+            }
+        } else {
+            arr = input
+        }
+
+        for (let i = 0, {length} = arr; i < length; i++) {
+            const value = jsonStringify(arr[i])
             if (value === "TypeError: BigInt value can't be serialized in JSON") {
                 return value
             }
@@ -89,11 +103,30 @@ function jsonStringify(input, replacer, space) {
             return jsonStringify(input.toJSON())
         }
 
+        let obj = {}
+
+        if (replacer) {
+            if (Array.isArray(replacer)) {
+                for (const item of replacer) {
+                    obj[item] = input[item]
+                }
+            } else if (isFunction(replacer)) {
+                for (const k in input) {
+                    if (input.hasOwnProperty(k)) {
+                        obj[k] = replacer(k, input[k])
+                    }
+                }
+            }
+        } else {
+            obj = input
+        }
+
+
         let res = [];
-        for (const k in input) {
-            if (input.hasOwnProperty(k)) {
+        for (const k in obj) {
+            if (obj.hasOwnProperty(k)) {
                 const key = jsonStringify(k)
-                const value = jsonStringify(input[k])
+                const value = jsonStringify(obj[k])
 
                 if (key === "TypeError: BigInt value can't be serialized in JSON" || value === "TypeError: BigInt value can't be serialized in JSON") {
                     return "TypeError: BigInt value can't be serialized in JSON"
@@ -119,11 +152,43 @@ function jsonStringify(input, replacer, space) {
     }
 }
 
-// console.log(jsonStringify([new Number(3), new String('false'), new Boolean(false), new Array()], null, '\n'))
-// console.log(jsonStringify([10, undefined, function(){}, Symbol('')]))
-// console.log(jsonStringify({x: 2n}))
-console.log(jsonStringify({ x: [10, undefined, function(){}, Symbol('')], y: "hello" }, null, 10))
 
-// const circularReference = {otherData: 123};
-// circularReference.myself = circularReference;
-// console.log(jsonStringify(circularReference))
+function jsonParse(input, reviver) {
+    let js = new Function("return " + input)()
+
+    function filter(holder, key) {
+        let k
+        let v
+        const value = holder[key]
+        if (value && typeof value === "object") {
+            for (k in value) {
+                if (Object.prototype.hasOwnProperty.call(value, k)) {
+                    v = filter(value, k)
+                    if (v) {
+                        value[k] = v
+                    } else {
+                        delete value[k]
+                    }
+                }
+            }
+        }
+        return reviver.call(holder, key, value)
+    }
+
+    if (js) {
+        if (isFunction(reviver)) {
+            js = filter({"": js}, "")
+        }
+        return js
+    }
+
+
+    throw new SyntaxError("Invalid parse")
+}
+// console.log(jsonParse('{"p": 5}', (key, value) =>
+//     typeof value === 'number'
+//         ? value * 2
+//         : value
+// ))
+// console.log(jsonParse('{"1": 1, "2": 2, "3": {"4": 4, "5": {"6": 6}}, "7": 7}'))
+// console.log(jsonParse('[1, 2, 3, 4, ]'))
