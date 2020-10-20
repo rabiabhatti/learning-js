@@ -2,38 +2,37 @@ function isFunction(func) {
     return func && Object.prototype.toString.call(func) === '[object Function]'
 }
 
-function isObject(o) {
-    return o && Object.prototype.toString.call(o) === '[object Object]'
+function isObject(obj) {
+    return obj && Object.prototype.toString.call(obj) === '[object Object]'
 }
 
 function checkForCircular(obj) {
+    if (!isObject(obj)) {
+        return
+    }
+
     const seen = []
-    if (typeof obj === 'object') {
-        seen.push(obj)
-        for (const value of Object.values(obj)) {
-            if (typeof value === "object" && value !== null) {
-                if (seen.includes(value)) {
-                    return "circular"
-                }
-                seen.push(value)
-            }
+    seen.push(obj)
+    for (const value of Object.values(obj)) {
+        if (isObject(value) && seen.includes(value)) {
+            return "circular"
         }
+        seen.push(value)
     }
 }
 
 function getSpacing(space) {
     let spacing = space ? (typeof space === 'number' ? (space >= 10 ? 10 : space) : space) : null
 
-    let str = ''
-
     if (typeof spacing === 'number') {
-        for (let i = 0; i < spacing; i++) {
-            str += " "
-        }
-    } else if (typeof spacing === 'string') {
-        str = spacing
+        return " ".repeat(spacing)
     }
-    return str
+
+    if (typeof spacing === 'string') {
+        return spacing
+    }
+
+    return ""
 }
 
 function jsonStringify(input, replacer, space) {
@@ -42,7 +41,7 @@ function jsonStringify(input, replacer, space) {
         return "Converting circular structure to JSON"
     }
 
-    if (input === null || input === undefined || input === Infinity || input === 'NaN' || isFunction(input) || typeof input === 'symbol') {
+    if (input == null || input === Infinity || input === 'NaN' || isFunction(input) || typeof input === 'symbol') {
         return "null"
     }
 
@@ -64,7 +63,7 @@ function jsonStringify(input, replacer, space) {
 
     if (Array.isArray(input) || input instanceof Array) {
         let arr = []
-        let res = space ? `[\n` :  "["
+        let returnValue = space ? `[\n` :  "["
 
         if (replacer && isFunction(replacer)) {
             for (let i = 0, {length} = input; i < length; i++) {
@@ -78,19 +77,20 @@ function jsonStringify(input, replacer, space) {
         }
 
         for (let i = 0, {length} = arr; i < length; i++) {
-            const value = jsonStringify(arr[i])
-            if (value === "TypeError: BigInt value can't be serialized in JSON") {
-                return value
+            const stringed = jsonStringify(arr[i])
+            if (stringed === "TypeError: BigInt value can't be serialized in JSON") {
+                return stringed
             }
-            const str = getSpacing(space)
-            if (str) {
-                res += (i ? `, ${str}` : '') + value
+
+            const spacing = getSpacing(space)
+            if (spacing) {
+                returnValue += (i ? `,${spacing}` : '') + stringed
             } else {
-                res += (i ? ", " : '') + value
+                returnValue += (i ? "," : '') + stringed
             }
 
         }
-        return res + (space ? `\n]` :  "]")
+        return returnValue + (space ? `\n]` :  "]")
     }
 
     if ( input instanceof Set || input instanceof Map || input instanceof WeakSet || input instanceof WeakMap) {
@@ -111,9 +111,14 @@ function jsonStringify(input, replacer, space) {
                     obj[item] = input[item]
                 }
             } else if (isFunction(replacer)) {
-                for (const k in input) {
-                    if (input.hasOwnProperty(k)) {
-                        obj[k] = replacer(k, input[k])
+                for (const key in input) {
+                    if (!input.hasOwnProperty(key)) {
+                        continue
+                    }
+
+                    const result = replacer(replacer(key, input[key]))
+                    if (result) {
+                        obj[key] = result
                     }
                 }
             }
@@ -122,31 +127,28 @@ function jsonStringify(input, replacer, space) {
         }
 
 
-        let res = [];
-        for (const k in obj) {
-            if (obj.hasOwnProperty(k)) {
-                const key = jsonStringify(k)
-                const value = jsonStringify(obj[k])
-
-                if (key === "TypeError: BigInt value can't be serialized in JSON" || value === "TypeError: BigInt value can't be serialized in JSON") {
-                    return "TypeError: BigInt value can't be serialized in JSON"
-                }
-
-                if (key === 'null' || value === 'null') {
-                    return "{}"
-                }
-
-                res.push(key + ': ' + value)
+        let arr = [];
+        for (const item in obj) {
+            if (!input.hasOwnProperty(item)) {
+                continue
             }
+
+            const key = jsonStringify(item)
+            const value = jsonStringify(obj[item])
+
+            if (key === "TypeError: BigInt value can't be serialized in JSON" || value === "TypeError: BigInt value can't be serialized in JSON") {
+                return "TypeError: BigInt value can't be serialized in JSON"
+            }
+
+            if (key === 'null' || value === 'null') {
+                return "{}"
+            }
+
+            arr.push(key + ':' + value)
         }
 
-        const str = getSpacing(space)
-        let result
-        if (str) {
-            result = res.join(`, ${str}`)
-        } else {
-            result = res.join(', ')
-        }
+        const spacing = getSpacing(space)
+        const result = spacing ? arr.join(`,${spacing}`) : arr.join(',')
 
         return (space ? `{\n` :  "{") + result +  (space ? `\n}` :  "}")
     }
