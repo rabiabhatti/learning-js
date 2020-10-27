@@ -35,220 +35,6 @@ function getSpacing(space) {
     return ""
 }
 
-const tokenTypes = [
-    {
-        regexp: /^\s+/,
-        create: (value, position) => ({ //whitespace
-            type: 'whitespace',
-            position,
-            raw: value,
-            value
-        })
-    },{
-        regexp: /^"(?:[^"\\]|\\.)*"/,
-        create: (value, position) => ({ //string
-            type: 'string',
-            position,
-            raw: value,
-            value: value
-            .slice(1, -1)
-            .replace(/\\"/g, '"')
-        })
-    },{
-        regexp: /^(true|false|null)/,
-        create: (value, position) => ({ // boolean
-            type: 'boolean',
-            position,
-            raw: value,
-            value: value === 'null'
-            ? null
-            : value === 'true'
-        })
-    },{
-        regexp: /^(-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?)/,
-        create: (value, position) => ({ // number
-            type: 'number',
-            position,
-            raw: value,
-            value: +value
-        })
-    },{
-        regexp: /^({|}|\[|]|:|,)/,
-        create: (value, position) => ({ // punctuation
-            type: 'punctuation',
-            position,
-            raw: value,
-            value
-        })
-    }
-    ]
-    
-    const tokenize = (json, tokens = [],position = { lineNo: 1, column: 1 }) => {
-    let firstChar = json[0]
-    
-    if (!firstChar) {
-        return tokens
-    }
-    
-    const [createToken, str] = tokenTypes.reduce((acc, curr) => {
-        if (acc) {
-            return acc
-        }
-
-        const str = match(curr.regexp)
-        if (!str) {
-            return acc
-        }
-    
-        return [curr.create,str]
-    }, null)
-    
-    const token = createToken(
-        str,
-        str.length === 1
-        ? position
-        : { start: position, end: updateColumn(str.length - 1) }
-    )
-    
-    const lines = str.match(/^\n+/g)
-    
-    if (lines) {
-        return tokenize(proceedNext(lines),tokens, { lineNo: position.lineNo + lines.length, column: 1 } )
-    }
-    
-    return next(token)
-    
-    function updateColumn (column) {
-        return {
-        lineNo: position.lineNo,
-        column: position.column + column
-        }
-    }
-    
-    function next (token, nextPosition) {
-        return tokenize(
-        proceedNext(token.raw),
-        tokens.concat([token]),
-        nextPosition || updateColumn(token.raw.length)
-        )
-    }
-    
-    function match (re) {
-        const m = re.exec(json)
-        if (!m) return
-        const str = m[0]
-        return str
-    }
-    
-    function proceedNext(str) {
-        return json.slice(str.length)
-    }
-}
-
-// const obj = { 4 : "Hello World \n", 'nested': {'key2': ['value2', 'three']}, 'last key': 'last value'}
-// const arr = [3, 'hello world', 'last', [4, 'world', null, {'key': 'value'}, 'shala'], 'last 2']
-// const tokens = tokenize(JSON.stringify(obj)).map(item => item.value)
-// console.log(tokens)
-
-function createObj(params) {
-    const obj = {}
-    let tokens = params.slice()
-    tokens.reduce((acc, curr) => {
-
-        if (curr === '}') {
-            return obj
-        }
-        if (curr === ',') {
-            return 
-        }
-
-        if (curr === '{') {
-            
-            const startingBraceIndex = tokens.indexOf(curr)
-            const nestedObjTokens = tokens.slice(startingBraceIndex, tokens.length - 1)
-            const lastClosingBraceIndex = nestedObjTokens.lastIndexOf('}')
-
-            const objTokens = nestedObjTokens.slice(1, lastClosingBraceIndex + 1)
-            curr = createObj(objTokens)
-
-            tokens.splice(startingBraceIndex, objTokens.length + 1)
-        
-        } else if (curr === '[') {
-
-            const startingBraketIndex = tokens.indexOf(curr)
-            const nestedArrTokens = tokens.slice(startingBraketIndex, tokens.length - 1)
-            const lastClosingBraceIndex = nestedArrTokens.lastIndexOf(']')
-
-            const arrTokens = nestedArrTokens.slice(1, lastClosingBraceIndex + 1)
-            curr = createArray(arrTokens)
-
-            tokens.splice(startingBraketIndex, arrTokens.length + 1)
-        }
-
-        if (!acc || !acc.length) {
-            return curr
-        }
-
-        if (acc.indexOf(':') !== -1 ) {
-            obj[acc[0]] = curr
-            return []
-        }
-
-        if (curr === ':') {
-            return [acc, curr]
-        }
-
-    }, null)
-    return obj
-}
-
-function createArray(params) {
-    const arr = []
-    let tokens = params.slice()
-
-    for (let i = 0, {length} = tokens; i < length; i++) {
-        const value = tokens[i]
-        if (value === ']') {
-            break;
-        }
-
-        if (value === ',') {
-            continue
-        }
-
-        if (value === '[') {
-            const copyTokens = tokens.slice(i, tokens.length - 1)
-
-            const lastClosingBraketIndex = copyTokens.lastIndexOf(']')
-            const nestedArrTokens = copyTokens.slice(1, lastClosingBraketIndex + 1)
-
-            const nestedArr = createArray(nestedArrTokens)
-            arr.push(nestedArr)
-
-            tokens.splice(i, nestedArrTokens.length + 1)
-
-        } else if (value === '{') {
-            const copyTokens = tokens.slice(i, tokens.length - 1)
-
-            const lastClosingBraceIndex = copyTokens.lastIndexOf('}')
-            const objTokens = copyTokens.slice(1, lastClosingBraceIndex + 1)
-
-            const obj = createObj(objTokens)
-            arr.push(obj)
-
-            tokens.splice(i, objTokens.length + 1)
-
-        } else {
-            arr.push(value)
-        }
-    }
-    return arr.filter(item => item !== undefined)
-}
-
-
-
-
-
 
 function jsonStringify(input, replacer, space) {
     const circular = checkForCircular(input)
@@ -369,9 +155,212 @@ function jsonStringify(input, replacer, space) {
     }
 }
 
+function matchRegex (regex, string) {
+    const matched = regex.exec(string)
 
+    if (!matched) {
+        return
+    }
 
+    return matched[0]
+}
 
+const tokenTypes = [
+    {
+        regexp: /^\s+/,
+        create: (value, position) => ({
+            type: 'whitespace',
+            position,
+            raw: value,
+            value
+        })
+    },{
+        regexp: /^"(?:[^"\\]|\\.)*"/,
+        create: (value, position) => ({
+            type: 'string',
+            position,
+            raw: value,
+            value: value
+            .slice(1, -1)
+            .replace(/\\"/g, '"')
+        })
+    },{
+        regexp: /^(true|false|null)/,
+        create: (value, position) => ({
+            type: 'boolean',
+            position,
+            raw: value,
+            value: value === 'null'
+            ? null
+            : value === 'true'
+        })
+    },{
+        regexp: /^(-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?)/,
+        create: (value, position) => ({
+            type: 'number',
+            position,
+            raw: value,
+            value: +value
+        })
+    },{
+        regexp: /^({|}|\[|]|:|,)/,
+        create: (value, position) => ({
+            type: 'punctuation',
+            position,
+            raw: value,
+            value
+        })
+    }
+]
+    
+const tokenize = (json, tokens = [],position = { row: 1, column: 1 }) => {
+
+    if (!json[0]) {
+        return tokens
+    }
+
+    const [createToken, matched] = tokenTypes.reduce((acc, curr) => {
+        if (acc) {
+            return acc
+        }
+
+        const matched = matchRegex(curr.regexp, json)
+        if (!matched) {
+            return acc
+        }
+
+        return [curr.create, matched]
+    }, null)
+
+    const token = createToken(
+        matched,
+        matched.length === 1
+        ? position
+        : { start: position, end: updateColumn(matched.length - 1) }
+    )
+
+    const lines = matched.match(/^\n+/g, json)
+
+    if (lines) {
+        const newPosition = { row: position.row + lines.length, column: 1 }
+        return tokenize(advance(lines), tokens, newPosition)
+    }
+
+    return next(token)
+
+    function updateColumn (column) {
+        return {
+        row: position.row,
+        column: position.column + column
+        }
+    }
+
+    function next (token, nextPosition) {
+        const newPosition = nextPosition || updateColumn(token.raw.length)
+        const newTokens = tokens.concat([token])
+
+        return tokenize(advance(token.raw), newTokens, newPosition)
+    }
+
+    function advance(str) {
+        return json.slice(str.length)
+    }
+}
+
+function createObj(params) {
+    const obj = {}
+    let tokens = params.slice()
+    tokens.reduce((acc, curr) => {
+
+        if (curr === '}') {
+            return obj
+        }
+        if (curr === ',') {
+            return acc
+        }
+
+        if (curr === '{') {
+            
+            const startingBraceIndex = tokens.indexOf(curr)
+            const nestedObjTokens = tokens.slice(startingBraceIndex, tokens.length - 1)
+            const lastClosingBraceIndex = nestedObjTokens.lastIndexOf('}')
+
+            const objTokens = nestedObjTokens.slice(1, lastClosingBraceIndex + 1)
+            curr = createObj(objTokens)
+
+            tokens.splice(startingBraceIndex, objTokens.length + 1)
+        
+        } else if (curr === '[') {
+
+            const startingBraketIndex = tokens.indexOf(curr)
+            const nestedArrTokens = tokens.slice(startingBraketIndex, tokens.length - 1)
+            const lastClosingBraceIndex = nestedArrTokens.lastIndexOf(']')
+
+            const arrTokens = nestedArrTokens.slice(1, lastClosingBraceIndex + 1)
+            curr = createArray(arrTokens)
+
+            tokens.splice(startingBraketIndex, arrTokens.length + 1)
+        }
+
+        if (!acc || !acc.length) {
+            return curr
+        }
+
+        if (acc.indexOf(':') !== -1 ) {
+            obj[acc[0]] = curr
+            return []
+        }
+
+        if (curr === ':') {
+            return [acc, curr]
+        }
+
+    }, null)
+    return obj
+}
+
+function createArray(params) {
+    const arr = []
+    let tokens = params.slice()
+
+    for (let i = 0, {length} = tokens; i < length; i++) {
+        const value = tokens[i]
+        if (value === ']') {
+            break;
+        }
+
+        if (value === ',') {
+            continue
+        }
+
+        if (value === '[') {
+            const copyTokens = tokens.slice(i, tokens.length - 1)
+
+            const lastClosingBraketIndex = copyTokens.lastIndexOf(']')
+            const nestedArrTokens = copyTokens.slice(1, lastClosingBraketIndex + 1)
+
+            const nestedArr = createArray(nestedArrTokens)
+            arr.push(nestedArr)
+
+            tokens.splice(i, nestedArrTokens.length + 1)
+
+        } else if (value === '{') {
+            const copyTokens = tokens.slice(i, tokens.length - 1)
+
+            const lastClosingBraceIndex = copyTokens.lastIndexOf('}')
+            const objTokens = copyTokens.slice(1, lastClosingBraceIndex + 1)
+
+            const obj = createObj(objTokens)
+            arr.push(obj)
+
+            tokens.splice(i, objTokens.length + 1)
+
+        } else {
+            arr.push(value)
+        }
+    }
+    return arr.filter(item => item !== undefined)
+}
 
 
 function jsonParse(input, reviver) {
@@ -393,49 +382,21 @@ function jsonParse(input, reviver) {
         return reviver.call(holder, key, value)
     }
 
-    if (input === 'null') {
-        return null
-    }
-
-    if (input.indexOf("'") !== -1) {
+    if (input.indexOf("'") !== -1 || input === '"') {
         return "Invalid parse"
     }
 
-    if (Boolean(input)) {
-        if (input === 'true') {
-            return true
-        }
-        if (input === 'false') {
-            return false
-        }
+    const tokens = tokenize(input).map(item => item.value)
+
+    if (tokens.length === 1) {
+        return tokens[0]
     }
 
-    const number = Number(input)
-    if (!isNaN(number)) {
-        return number
-    }
-
-    if (input[0] === '[') {
-        const trimmed = input.slice(1,-1)
-
-        if (trimmed === '') {
-            return []
-        }
-
-        const tokens = tokenize(input).map(item => item.value)
-
+    if (tokens[0] === '[') {
         return createArray(tokens.slice(1))
-
     }
 
-    if (input[0] === '{') {
-        const trimmed = input.slice(1,-1)
-        if (trimmed === '') {
-            return {}
-        }
-
-        const tokens = tokenize(input).map(item => item.value)
-
+    if (tokens[0] === '{') {
         let obj = createObj(tokens.slice(1))
 
         if (isFunction(reviver)) {
@@ -444,8 +405,7 @@ function jsonParse(input, reviver) {
 
         return obj
     }
-
-    return input.trim().split('"').join('')
+    
 
 }
 // console.log(jsonParse(JSON.stringify({"p": 5}), (key, value) =>
@@ -455,6 +415,8 @@ function jsonParse(input, reviver) {
 // ))
 // console.log(jsonParse('{"1": 1, "2": 2, "3": {"4": 4, "5": {"6": 6}}, "7": 7}'))
 // const string = JSON.stringify([1,[5, [6]], {"key": "value"}, 'last'])
-// const string = JSON.stringify({"1": 1, "2": 2, true: {"4": 4, "5": {"6": [6, 'hello']}}, "7": null})
-// console.log(jsonParse(string))
+const string = JSON.stringify({"1": 1, "2": 2, true: {"4": 4, "5": {"6": [6, 'hello']}}, "7": null})
+// const string = JSON.stringify('log the current property name, the last is ""')
+console.log(jsonParse(string))
+// console.log(JSON.parse(string))
 
