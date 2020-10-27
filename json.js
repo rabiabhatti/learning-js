@@ -30,7 +30,7 @@ function getSpacing(space) {
 
     if (typeof spacing === 'string') {
         return spacing
-        
+
     }
     return ""
 }
@@ -54,7 +54,7 @@ function jsonStringify(input, replacer, space) {
         return input.toString()
     }
 
-    if (typeof  input === 'number' || input instanceof Number) {
+    if (typeof input === 'number' || input instanceof Number) {
         return isFinite(input) ? input.toString() : "null"
     }
 
@@ -64,10 +64,10 @@ function jsonStringify(input, replacer, space) {
 
     if (Array.isArray(input) || input instanceof Array) {
         let arr = []
-        let returnValue = space ? `[\n` :  "["
+        let returnValue = space ? `[\n` : "["
 
         if (replacer && isFunction(replacer)) {
-            for (let i = 0, {length} = input; i < length; i++) {
+            for (let i = 0, { length } = input; i < length; i++) {
                 const replacerResult = replacer(i, input[i])
                 if (replacerResult) {
                     arr.push(replacerResult)
@@ -77,7 +77,7 @@ function jsonStringify(input, replacer, space) {
             arr = input
         }
 
-        for (let i = 0, {length} = arr; i < length; i++) {
+        for (let i = 0, { length } = arr; i < length; i++) {
             const stringed = jsonStringify(arr[i])
             if (stringed === "TypeError: BigInt value can't be serialized in JSON") {
                 return stringed
@@ -91,10 +91,10 @@ function jsonStringify(input, replacer, space) {
             }
 
         }
-        return returnValue + (space ? `\n]` :  "]")
+        return returnValue + (space ? `\n]` : "]")
     }
 
-    if ( input instanceof Set || input instanceof Map || input instanceof WeakSet || input instanceof WeakMap) {
+    if (input instanceof Set || input instanceof Map || input instanceof WeakSet || input instanceof WeakMap) {
         return "{}"
     }
 
@@ -151,11 +151,11 @@ function jsonStringify(input, replacer, space) {
         const spacing = getSpacing(space)
         const result = spacing ? arr.join(`,${spacing}`) : arr.join(',')
 
-        return (space ? `{\n` :  "{") + result +  (space ? `\n}` :  "}")
+        return (space ? `{\n` : "{") + result + (space ? `\n}` : "}")
     }
 }
 
-function matchRegex (regex, string) {
+function matchRegex(regex, string) {
     const matched = regex.exec(string)
 
     if (!matched) {
@@ -174,27 +174,27 @@ const tokenTypes = [
             raw: value,
             value
         })
-    },{
+    }, {
         regexp: /^"(?:[^"\\]|\\.)*"/,
         create: (value, position) => ({
             type: 'string',
             position,
             raw: value,
             value: value
-            .slice(1, -1)
-            .replace(/\\"/g, '"')
+                .slice(1, -1)
+                .replace(/\\"/g, '"')
         })
-    },{
+    }, {
         regexp: /^(true|false|null)/,
         create: (value, position) => ({
             type: 'boolean',
             position,
             raw: value,
             value: value === 'null'
-            ? null
-            : value === 'true'
+                ? null
+                : value === 'true'
         })
-    },{
+    }, {
         regexp: /^(-?(?:0|[1-9]\d*)(?:\.\d+)?(?:[eE][+-]?\d+)?)/,
         create: (value, position) => ({
             type: 'number',
@@ -202,7 +202,7 @@ const tokenTypes = [
             raw: value,
             value: +value
         })
-    },{
+    }, {
         regexp: /^({|}|\[|]|:|,)/,
         create: (value, position) => ({
             type: 'punctuation',
@@ -212,8 +212,8 @@ const tokenTypes = [
         })
     }
 ]
-    
-const tokenize = (json, tokens = [],position = { row: 1, column: 1 }) => {
+
+const tokenize = (json, tokens = [], position = { row: 1, column: 1 }) => {
 
     if (!json[0]) {
         return tokens
@@ -235,8 +235,8 @@ const tokenize = (json, tokens = [],position = { row: 1, column: 1 }) => {
     const token = createToken(
         matched,
         matched.length === 1
-        ? position
-        : { start: position, end: updateColumn(matched.length - 1) }
+            ? position
+            : { start: position, end: updateColumn(matched.length - 1) }
     )
 
     const lines = matched.match(/^\n+/g, json)
@@ -248,14 +248,14 @@ const tokenize = (json, tokens = [],position = { row: 1, column: 1 }) => {
 
     return next(token)
 
-    function updateColumn (column) {
+    function updateColumn(column) {
         return {
-        row: position.row,
-        column: position.column + column
+            row: position.row,
+            column: position.column + column
         }
     }
 
-    function next (token, nextPosition) {
+    function next(token, nextPosition) {
         const newPosition = nextPosition || updateColumn(token.raw.length)
         const newTokens = tokens.concat([token])
 
@@ -280,7 +280,7 @@ function createObj(params) {
         }
 
         if (curr === '{') {
-            
+
             const startingBraceIndex = tokens.indexOf(curr)
             const nestedObjTokens = tokens.slice(startingBraceIndex, tokens.length - 1)
             const lastClosingBraceIndex = nestedObjTokens.lastIndexOf('}')
@@ -289,7 +289,7 @@ function createObj(params) {
             curr = createObj(objTokens)
 
             tokens.splice(startingBraceIndex, objTokens.length + 1)
-        
+
         } else if (curr === '[') {
 
             const startingBraketIndex = tokens.indexOf(curr)
@@ -306,7 +306,7 @@ function createObj(params) {
             return curr
         }
 
-        if (acc.indexOf(':') !== -1 ) {
+        if (acc.indexOf(':') !== -1) {
             obj[acc[0]] = curr
             return []
         }
@@ -319,11 +319,11 @@ function createObj(params) {
     return obj
 }
 
-function createArray(params) {
+function createArray(arg) {
     const arr = []
-    let tokens = params.slice()
+    let tokens = arg.slice()
 
-    for (let i = 0, {length} = tokens; i < length; i++) {
+    for (let i = 0, { length } = tokens; i < length; i++) {
         const value = tokens[i]
         if (value === ']') {
             break;
@@ -387,7 +387,7 @@ function jsonParse(input, reviver) {
     }
 
     const tokens = tokenize(input).map(item => item.value)
-
+    
     if (tokens.length === 1) {
         return tokens[0]
     }
@@ -400,12 +400,12 @@ function jsonParse(input, reviver) {
         let obj = createObj(tokens.slice(1))
 
         if (isFunction(reviver)) {
-            obj = filter({"": obj}, "")
+            obj = filter({ "": obj }, "")
         }
 
         return obj
     }
-    
+
 
 }
 // console.log(jsonParse(JSON.stringify({"p": 5}), (key, value) =>
@@ -415,7 +415,7 @@ function jsonParse(input, reviver) {
 // ))
 // console.log(jsonParse('{"1": 1, "2": 2, "3": {"4": 4, "5": {"6": 6}}, "7": 7}'))
 // const string = JSON.stringify([1,[5, [6]], {"key": "value"}, 'last'])
-const string = JSON.stringify({"1": 1, "2": 2, true: {"4": 4, "5": {"6": [6, 'hello']}}, "7": null})
+const string = JSON.stringify({ "1": 1, "2": 2, true: { "4": 4, "5": { "6": [6, 'hello'] } }, "7": null })
 // const string = JSON.stringify('log the current property name, the last is ""')
 console.log(jsonParse(string))
 // console.log(JSON.parse(string))
