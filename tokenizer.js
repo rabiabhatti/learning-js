@@ -46,14 +46,17 @@ class Tokenizer {
         for (value, this.index++; this.index < this.length;) {
         
             let character = this.jsonString[this.index]
+
+            let charCode = this.jsonString.charCodeAt(this.index)
             
-            if (this.jsonString.charCodeAt(this.index) < 32) {
+            if (charCode < 32) {
                 return abort('Unescaped ASCII control characters are not permitted.')
             }
 
             if (character === '\\') {
                 
                 character = this.jsonString[++this.index]
+
             
                 switch (character) {
                     case '\\':
