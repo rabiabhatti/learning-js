@@ -42,11 +42,11 @@ class Tokenizer {
         }
 
         if (currChar === '[') {
-            console.log('hello')
             return this.createArray()
         }
 
         if (currChar === '{') {
+            console.log(this.createObject())
             return this.createObject()
         }
 
@@ -247,22 +247,26 @@ class Tokenizer {
             if (isKey) {
                 obj[dataType] = null
                 key = dataType
+                isKey = false
             } else {
                 obj[key] = dataType
                 key = null
                 isKey = true
             }
+            ++this.index
+        
         }
 
         let currChar = this.jsonString[this.index]
         if (currChar === '}') {
-                return obj
+            console.log('called', currChar, this.index, this.jsonString[this.length - 1], this.length)
+            return obj
         }
         return abort('Unterminated object.')
     }
 
 }
 
-const tokenizer = new Tokenizer(JSON.stringify({key: 'value', 3.14: -3.14, 'hello': ['hello']}))
+const tokenizer = new Tokenizer(JSON.stringify({'key': 'value', 3.14: -3.14, 'hello': ['world', 'test', {deep: 'value'}]}))
 // const tokenizer = new Tokenizer(JSON.stringify(['key', 'value', 3.14 -3.14, 'hello', ['hello']]))
 console.log(tokenizer.createDataType())
