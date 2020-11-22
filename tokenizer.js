@@ -17,11 +17,11 @@ class Tokenizer {
     constructor (jsonString) {
         this.index = 0
         this.jsonString = jsonString
-        this.result = [] 
+        this.result
         this.length = jsonString.length
     }
 
-    start() {
+    createDataType() {
         if (this.index >= this.length) {
             return
         }
@@ -30,20 +30,27 @@ class Tokenizer {
         let charCode = this.jsonString.charCodeAt(this.index)
 
         if (currChar === '"') {
-            const str = this.createString()
-            return str
+            return this.createString()
         }
 
-        if (charCode === 43 || charCode === 45 || (charCode >= 48 && charCode <= 57)) {
-            const number = this.createNumber()
-            return number
+        if (charCode === 43 || charCode === 45 || (charCode >= 48 && charCode <= 57)) { // 43 for - and 45 for + sign
+            return this.createNumber()
+        }
+
+        if (currChar === 'n' || currChar === 't' || currChar === 'f') {
+            return this.createBoolAndNull()
+        }
+
+        if (currChar === '[') {
+            return this.createArray()
         }
 
     }
 
     createString() {
-        let value = ''
-        for (value, this.index++; this.index < this.length;) {
+        let result = ''
+
+        for (result, this.index++; this.index < this.length;) {
         
             let character = this.jsonString[this.index]
 
@@ -56,7 +63,6 @@ class Tokenizer {
             if (character === '\\') {
                 
                 character = this.jsonString[++this.index]
-
             
                 switch (character) {
                     case '\\':
@@ -68,23 +74,23 @@ class Tokenizer {
                     case 'f':
                     case 'r':
 
-                        value += unescapes[character]
+                        result += unescapes[character]
                         this.index++
                         break
 
                     case 'u':
-                        let stringStartIndex = ++this.index
+                        let hexaStartIndex = ++this.index
 
                         for (let position = this.index + 4; this.index < position; this.index++) {
                             let charCode = this.jsonString.charCodeAt(this.index)
-                            // A valid sequence comprises four hexdigits (case-
+                            // A valid sequence comprises four hexadigits (case-
                             // insensitive) that form a single hexadecimal value.
                             if (!((charCode >= 48 && charCode <= 57) || (charCode >= 97 && charCode <= 102) || (charCode >= 65 && charCode <= 70))) {
                                 return abort('Invalid Unicode escape sequence.')
                             }
                         }
                         // Revive the escaped character.
-                        value += String.fromCharCode('0x' + this.jsonString.slice(stringStartIndex, this.index))
+                        result += String.fromCharCode('0x' + this.jsonString.slice(hexaStartIndex, this.index))
                         break
 
                     default:
@@ -97,21 +103,21 @@ class Tokenizer {
                     break
                 }
 
-                let stringStartIndex = this.index
+                const stringStartIndex = this.index
                 
                 let charCode = this.jsonString.charCodeAt(this.index)
-                while (charCode >= 32 && charCode !== 92 && charCode !== 34) {
+                while (charCode >= 32 && charCode !== 92 && charCode !== 34) { // 92 for \ and 34 for "
                     charCode = this.jsonString.charCodeAt(++this.index)
                 }
 
-                value += this.jsonString.slice(stringStartIndex, this.index)
+                result += this.jsonString.slice(stringStartIndex, this.index)
             }
         }
 
-        let currChar = this.jsonString[this.index]
+        const currChar = this.jsonString[this.index]
         if (currChar === '"') {
             this.index++
-            return value
+            return result
         }
 
         return abort('Unterminated string.')
@@ -157,11 +163,57 @@ class Tokenizer {
         }
     }
 
-    proceed(index) {
-        this.index += index
+
+    createBoolAndNull () {
+        const firstFourChars = this.jsonString.slice(this.index, this.index + 4)
+
+        if (firstFourChars === 'true') {
+            this.index += 4
+            return true
+        }
+        
+        if (firstFourChars === 'fals' && this.jsonString[this.index + 4] === 'e') {
+            this.index += 5
+            return false
+        }
+
+        if (firstFourChars === 'null') {
+            this.index += 4
+            return null
+        }
+
+        return abort('Unrecognized token.')
+    }
+
+    createArray() {
+        const arr = []
+        this.index++
+        const stringArrayIndex = this.index
+
+        for (stringArrayIndex; this.index < this.length;) {
+            let currChar = this.jsonString[this.index]
+
+            if (currChar === ',') {
+                this.index++
+                continue
+            }
+
+            if (currChar === ']') {
+                break
+            }
+
+            const dataType = this.createDataType()
+            arr.push(dataType)
+        }
+
+        let currChar = this.jsonString[this.index]
+        if (currChar === ']') {
+                return arr
+        }
+        return abort('Unterminated array.')
     }
 
 }
 
-const tokenizer = new Tokenizer(JSON.stringify(-10.3))
-console.log(tokenizer.start())
+const tokenizer = new Tokenizer(JSON.stringify([true, 3, 'hello world', [-4.43, false]]))
+console.log(tokenizer.createDataType())
