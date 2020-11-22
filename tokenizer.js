@@ -42,7 +42,12 @@ class Tokenizer {
         }
 
         if (currChar === '[') {
+            console.log('hello')
             return this.createArray()
+        }
+
+        if (currChar === '{') {
+            return this.createObject()
         }
 
     }
@@ -213,7 +218,51 @@ class Tokenizer {
         return abort('Unterminated array.')
     }
 
+    createObject () {
+        const obj = {}
+        let isKey = true
+        let key = null
+        this.index++
+        const stringObjectIndex = this.index
+
+        for (stringObjectIndex; this.index < this.length;) {
+            let currChar = this.jsonString[this.index]
+
+            if (currChar === ',') {
+                this.index++
+                continue
+            }
+
+            if (currChar === ':') {
+                isKey = false
+                this.index++
+                continue
+            }
+
+            if (currChar === '}') {
+                break
+            }
+
+            const dataType = this.createDataType()
+            if (isKey) {
+                obj[dataType] = null
+                key = dataType
+            } else {
+                obj[key] = dataType
+                key = null
+                isKey = true
+            }
+        }
+
+        let currChar = this.jsonString[this.index]
+        if (currChar === '}') {
+                return obj
+        }
+        return abort('Unterminated object.')
+    }
+
 }
 
-const tokenizer = new Tokenizer(JSON.stringify([true, 3, 'hello world', [-4.43, false]]))
+const tokenizer = new Tokenizer(JSON.stringify({key: 'value', 3.14: -3.14, 'hello': ['hello']}))
+// const tokenizer = new Tokenizer(JSON.stringify(['key', 'value', 3.14 -3.14, 'hello', ['hello']]))
 console.log(tokenizer.createDataType())
