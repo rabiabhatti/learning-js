@@ -46,7 +46,6 @@ class Tokenizer {
         }
 
         if (currChar === '{') {
-            console.log(this.createObject())
             return this.createObject()
         }
 
@@ -213,7 +212,8 @@ class Tokenizer {
 
         let currChar = this.jsonString[this.index]
         if (currChar === ']') {
-                return arr
+            this.index++
+            return arr
         }
         return abort('Unterminated array.')
     }
@@ -253,13 +253,12 @@ class Tokenizer {
                 key = null
                 isKey = true
             }
-            ++this.index
         
         }
 
         let currChar = this.jsonString[this.index]
         if (currChar === '}') {
-            console.log('called', currChar, this.index, this.jsonString[this.length - 1], this.length)
+            this.index++
             return obj
         }
         return abort('Unterminated object.')
@@ -268,5 +267,4 @@ class Tokenizer {
 }
 
 const tokenizer = new Tokenizer(JSON.stringify({'key': 'value', 3.14: -3.14, 'hello': ['world', 'test', {deep: 'value'}]}))
-// const tokenizer = new Tokenizer(JSON.stringify(['key', 'value', 3.14 -3.14, 'hello', ['hello']]))
 console.log(tokenizer.createDataType())
