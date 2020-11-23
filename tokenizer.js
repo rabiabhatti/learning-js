@@ -17,7 +17,6 @@ class Tokenizer {
     constructor (jsonString) {
         this.index = 0
         this.jsonString = jsonString
-        this.result
         this.length = jsonString.length
     }
 
@@ -48,6 +47,8 @@ class Tokenizer {
         if (currChar === '{') {
             return this.createObject()
         }
+
+        abort('Invalid input')
 
     }
 
