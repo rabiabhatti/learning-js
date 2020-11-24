@@ -32,7 +32,7 @@ class Tokenizer {
             return this.createString()
         }
 
-        if (charCode === 43 || charCode === 45 || (charCode >= 48 && charCode <= 57)) { // 43 for - and 45 for + sign
+        if (charCode === 45 || (charCode >= 48 && charCode <= 57)) { // 45 for - sign
             return this.createNumber()
         }
 
