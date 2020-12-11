@@ -24,7 +24,7 @@ const linksMatches = links.match(linkRegex)
 // console.log(linksMatches)
 
 
-const ariaLabelRegex = /<.*aria-label.*>/gi
+const ariaLabelRegex = /<.*aria-label[^<]*>/gi
 
 const ariaLabelString = `<link rel="apple-touch-icon" sizes="57x57" href="/static/assets/apple-icon-57x57.png">
 <link rel="shortcut icon" href="/static/assets/favicon.ico" type="image/x-icon" />
