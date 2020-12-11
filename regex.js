@@ -1,4 +1,4 @@
-const linkRegex = /(rel="(\w*[-]?\s?)*"|href="[\/](.)+"|sizes="\d+[x]+\d*")/gi
+const linkRegex = /(rel="(\w*[-]?\s?)*"|href="(\w*[\\]?\S?)*"|sizes="\d+[x]+\d*")/gi
 
 const links = `<link rel="shortcut icon" href="/static/assets/favicon.ico" type="image/x-icon" />
 <link rel="apple-touch-icon" sizes="57x57" href="/static/assets/apple-icon-57x57.png">
@@ -42,4 +42,4 @@ const ariaLabelString = `<link rel="apple-touch-icon" sizes="57x57" href="/stati
 </div>`
 
 const ariaLabelResult = ariaLabelString.match(ariaLabelRegex)
-console.log(ariaLabelResult)
+// console.log(ariaLabelResult)
