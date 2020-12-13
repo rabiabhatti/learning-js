@@ -1,0 +1,24 @@
+{
+  "name": "learning",
+  "version": "1.0.0",
+  "description": "",
+  "main": "express.js",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "node express.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rabiabhatti/learning-js.git"
+  },
+  "author": "Rabia Iqbal",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rabiabhatti/learning-js/issues"
+  },
+  "homepage": "https://github.com/rabiabhatti/learning-js#readme"
+}
