@@ -1,0 +1,10 @@
+services:
+  db:
+    image: "postgres:13"
+    container_name: "learning_js_postgres"
+    environment:
+      POSTGRES_DB: learning_js_database
+      POSTGRES_USER: learning_js
+      POSTGRES_PASSWORD: learning_js
+    ports:
+      - 5432:5432
