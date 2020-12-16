@@ -26,8 +26,8 @@ app.get('/route-2', (req, res) => {
 })
 
 app.get('/times', db.getAllEntries)
-app.post('/times', db.createEntry)
-app.delete('/users', db.deleteMostRecent)
+app.post('/times/:id', db.createEntry)
+app.delete('/times', db.deleteMostRecent)
 
 app.listen(PORT, () => {
     console.log(`App is listening on port ${PORT}`)

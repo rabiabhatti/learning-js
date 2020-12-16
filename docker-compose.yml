@@ -1,10 +1,18 @@
+version: '3'
 services:
-  db:
-    image: "postgres:13"
-    container_name: "learning_js_postgres"
+  postgres:
+    image: postgres:12-alpine
+    container_name: shw-psql
     environment:
-      POSTGRES_DB: learning_js_database
-      POSTGRES_USER: learning_js
-      POSTGRES_PASSWORD: learning_js
+      - PGDATA=/var/lib/postgresql/data/pgdata
+      - POSTGRES_USER=shw
+      - POSTGRES_PASSWORD=shw
+      - POSTGRES_DATABASE=shw
+      - TZ=UTC
+      - PGTZ=UTC
     ports:
       - 5432:5432
+    volumes:
+      - ./.mnt/pgdata:/var/lib/postgresql/data/pgdata
+volumes:
+      postgres-vol:

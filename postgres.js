@@ -1,17 +1,17 @@
 const Pool = require('pg').Pool
 const pool = new Pool({
-  user: 'learning_js',
+  user: 'shw',
   host: 'localhost',
-  database: 'learning_js_database',
-  password: 'learning_js',
+  database: 'shw',
+  password: 'shw',
   port: 5432,
 })
 
 
 const createEntry = (request, response) => {
-    const t = Date.now()
+    const id = parseInt(request.params.id)
   
-    pool.query('INSERT INTO times (date) VALUES ($1)', [t], (error, results) => {
+    pool.query('INSERT INTO times (id) VALUES ($1)', [id], (error, results) => {
       if (error) {
         throw error
       }
@@ -29,13 +29,13 @@ const getAllEntries = (request, response) => {
 }
 
 const deleteMostRecent = (request, response) => {
-  
-    pool.query('DELETE FROM times ORDER BY id DESC LIMIT 1', (error, results) => {
-      if (error) {
-        throw error
-      }
-      response.status(200).send(`Time deleted: ${results}`)
+    pool.query('DELETE FROM times WHERE id = (SELECT id FROM times ORDER BY id DESC LIMIT 1)', (error, results) => {
+        if (error) {
+          throw error
+        }
+        response.status(200).send(`Time deleted: ${results}`)
     })
+    
 }
 
   module.exports = {
