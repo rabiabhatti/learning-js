@@ -7,12 +7,8 @@ const db = require('./db')
 
 const PORT = 8080
 
-app.use(bodyParser.json())
-app.use(
-  bodyParser.urlencoded({
-    extended: true,
-  })
-)
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 app.use(express.static(path.join(__dirname, 'public')));
 
