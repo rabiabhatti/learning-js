@@ -37,7 +37,21 @@ function createEntry(e) {
     })
     .then(res => res.json())
     .then(times => {
+        
         displayEntries(times)
     })
     .catch(err => console.log(err));
+};
+
+function deletelastEntry() {
+
+    fetch(apiUrl, {method: "DELETE"})
+    .then(res => {
+        return res.json()
+    })
+    .then(times => {
+        displayEntries(times)
+    })
+    .catch(err => console.log(err));
+
 };

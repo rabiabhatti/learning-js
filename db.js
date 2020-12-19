@@ -30,11 +30,12 @@ const getAllEntries = (request, response) => {
 }
 
 const deleteMostRecent = (request, response) => {
-    pool.query('DELETE FROM times WHERE id = MAX(id)', (error, results) => {
+    pool.query('DELETE FROM times WHERE id = (SELECT id FROM times ORDER BY id DESC LIMIT 1)', (error, results) => {
         if (error) {
           throw error
         }
-        response.status(200).send(`Time deleted: ${results}`)
+        getAllEntries(request, response)
+        // response.status(200).send(`Time deleted: ${results}`)
     })
     
 }
