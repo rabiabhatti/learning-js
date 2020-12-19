@@ -9,7 +9,7 @@ const pool = new Pool({
 
 
 const createEntry = (request, response) => {
-    const id = parseInt(request.params.id)
+    const {id} = request.body
   
     pool.query('INSERT INTO times (id) VALUES ($1)', [id], (error, results) => {
       if (error) {
