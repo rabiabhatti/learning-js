@@ -2,9 +2,9 @@ body {
     margin: 0;
     color: #3c4043;
     font-size: 16px;
-    padding-top:50px;
-    background-color: #F7F7F7;
-    font-family: Roboto,Arial,sans-serif;
+    padding-top: 50px;
+    background-color: #f7f7f7;
+    font-family: Roboto, Arial, sans-serif;
 }
 .wrapper {
     display: flex;
@@ -15,26 +15,31 @@ body {
     margin: auto;
     padding: 2rem;
 }
-.btn, input[type="submit"] {
+.btn,
+input[type='submit'] {
     padding: 0.8rem;
     width: 5rem;
     text-align: center;
     color: white;
-    background-color: #00897B;
+    background-color: #00897b;
     display: inline-block;
     text-transform: uppercase;
     border: 1px solid transparent;
 }
-button:active, button:focus, .btn:active, .btn:focus, input:focus {
+button:active,
+button:focus,
+.btn:active,
+.btn:focus,
+input:focus {
     outline: none;
 }
 input {
     position: relative;
     padding: 0.8rem 1rem;
     border: 1px solid transparent;
-    background-color: #F7F7F7;
+    background-color: #f7f7f7;
     font-size: 1rem;
-    transition: all .5s ease;
+    transition: all 0.5s ease;
     width: 12rem;
 
     &::placeholder {
@@ -50,7 +55,8 @@ input {
     }
 }
 
-h1, h2 {
+h1,
+h2 {
     margin: 1.5rem 0;
     font-size: 1.3rem;
     text-transform: uppercase;
@@ -58,5 +64,5 @@ h1, h2 {
 .alert-btn {
     width: 30%;
     margin-top: 1rem;
-    background-color: #C14D44;
+    background-color: #c14d44;
 }
