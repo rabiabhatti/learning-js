@@ -1,0 +1,16 @@
+version: '3'
+services: 
+  postgres:
+    image: postgres:12-alpine
+    container_name: lesson002-psql
+    environment:
+      - PGDATA=/var/lib/postgresql/data/pgdata
+      - POSTGRES_USER=rabia
+      - POSTGRES_PASSWORD=rabia
+      - POSTGRES_DATABASE=lesson002
+      - TZ=UTC
+      - PGTZ=UTC
+    ports:
+      - 5432:5432
+    volumes:
+      - ./.mnt/pgdata:/var/lib/postgresql/data/pgdata

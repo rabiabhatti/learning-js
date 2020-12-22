@@ -12,14 +12,14 @@ function displayEntries(times) {
     })
 }
 
-(function getAllEntries () {
-    fetch(apiUrl).then(res => res.json())
-    .then(times => {
-        displayEntries(times)
-    }).catch(err => {
-        console.error(err)
-    })
-})();
+// (function getAllEntries () {
+//     fetch(apiUrl).then(res => res.json())
+//     .then(times => {
+//         displayEntries(times)
+//     }).catch(err => {
+//         console.error(err)
+//     })
+// })();
 
 
 document.addEventListener("submit", createEntry);
