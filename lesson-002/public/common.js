@@ -6,7 +6,7 @@ function displayEntries(times) {
     times.forEach((time) => {
         const paragraph = document.createElement('p')
         const node = document.createTextNode(
-            `ID: ${time.id}, Time: ${time.createdAt}`
+            `ID: ${time.id}, Create at: ${time.createdAt}`
         )
 
         paragraph.appendChild(node)
@@ -14,14 +14,16 @@ function displayEntries(times) {
     })
 }
 
-// (function getAllEntries () {
-//     fetch(apiUrl).then(res => res.json())
-//     .then(times => {
-//         displayEntries(times)
-//     }).catch(err => {
-//         console.error(err)
-//     })
-// })();
+;(function getAllEntries() {
+    fetch(apiUrl)
+        .then((res) => res.json())
+        .then((times) => {
+            displayEntries(times)
+        })
+        .catch((err) => {
+            console.error(err)
+        })
+})()
 
 document.addEventListener('submit', createEntry)
 
