@@ -2,7 +2,6 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const path = require('path')
 
-// const db = require('./db')
 const { sequelize } = require('./models')
 
 const app = express()
@@ -18,13 +17,14 @@ async function start() {
         res.sendFile(path.join(`${__dirname}/public/index.html`))
     })
 
-    await sequelize.authenticate()
-    console.log('Connection has been established successfully.')
-    // try {
-    // } catch (error) {
-    //     console.error('Unable to connect to the database:', error)
-    // }
-
+    try {
+        await sequelize.authenticate()
+        // eslint-disable-next-line no-console
+        console.log('Connection has been established successfully.')
+    } catch (error) {
+        // eslint-disable-next-line no-console
+        console.error('Unable to connect to the database:', error)
+    }
     // app.get('/times', db.getAllEntries)
     // app.post('/times', db.createEntry)
     // app.delete('/times', db.deleteMostRecent)
@@ -36,5 +36,6 @@ async function start() {
 }
 
 start().catch((e) => {
+    // eslint-disable-next-line no-console
     console.log(e)
 })

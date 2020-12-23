@@ -7,7 +7,7 @@ services:
             - PGDATA=/var/lib/postgresql/data/pgdata
             - POSTGRES_USER=rabia
             - POSTGRES_PASSWORD=rabia
-            - POSTGRES_DATABASE=lesson002
+            - POSTGRES_DATABASE=rabia
             - TZ=UTC
             - PGTZ=UTC
         ports:

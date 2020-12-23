@@ -6,7 +6,7 @@ function displayEntries(times) {
     times.forEach((time) => {
         const paragraph = document.createElement('p')
         const node = document.createTextNode(
-            `ID: ${time.id}, Time: ${time.my_date}`
+            `ID: ${time.id}, Time: ${time.createdAt}`
         )
 
         paragraph.appendChild(node)
