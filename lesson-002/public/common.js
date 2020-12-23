@@ -25,8 +25,6 @@ function displayEntries(times) {
         })
 })()
 
-document.addEventListener('submit', createEntry)
-
 function createEntry(e) {
     e.preventDefault()
     const id = document.querySelector('#id-input').value
@@ -47,11 +45,11 @@ function createEntry(e) {
 
 function deletelastEntry() {
     fetch(apiUrl, { method: 'DELETE' })
-        .then((res) => {
-            return res.json()
-        })
+        .then((res) => res.json())
         .then((times) => {
             displayEntries(times)
         })
         .catch((err) => console.log(err))
 }
+
+document.addEventListener('submit', createEntry)

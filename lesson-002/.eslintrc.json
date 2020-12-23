@@ -1,5 +1,6 @@
 {
     "env": {
+        "browser": true,
         "node": true,
         "commonjs": true,
         "es2021": true
@@ -10,6 +11,8 @@
         "ecmaVersion": 12
     },
     "rules": {
+        "no-console": "off",
+        "global-require": 0, 
         "prettier/prettier": "error",
         "no-unexpected-multiline": "error"
     }
