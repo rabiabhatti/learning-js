@@ -14,9 +14,9 @@ module.exports = {
     async createTime(req, res) {
         const { id } = req.body
         try {
-            await db.time.create({ id })
-            const collection = await db.time.findAll()
-            res.status(201).send(collection)
+            const entry = await db.time.create({ id })
+            console.log('entry', entry)
+            res.status(201).send(entry.dataValues)
         } catch (e) {
             console.log(e)
             res.status(400).send(e)
@@ -34,8 +34,7 @@ module.exports = {
                     const { id } = result[0].dataValues
                     try {
                         await db.time.destroy({ where: { id } })
-                        const collection = await db.time.findAll()
-                        res.status(201).send(collection)
+                        res.status(201).send({ id })
                     } catch (e) {
                         console.log(e)
                         res.status(400).send(e)
