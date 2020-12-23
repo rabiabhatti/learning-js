@@ -4,13 +4,11 @@ const path = require('path')
 
 const { sequelize } = require('./models')
 
-const app = express()
-
 const PORT = 8080
 
 async function start() {
+    const app = express()
     app.use(bodyParser.json())
-
     app.use(express.static(path.join(__dirname, 'public')))
 
     app.get('/', (_req, res) => {
@@ -28,6 +26,8 @@ async function start() {
     // app.get('/times', db.getAllEntries)
     // app.post('/times', db.createEntry)
     // app.delete('/times', db.deleteMostRecent)
+
+    require('./routes')(app)
 
     app.listen(PORT, () => {
         // eslint-disable-next-line no-console
