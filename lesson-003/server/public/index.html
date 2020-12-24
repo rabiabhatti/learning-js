@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Learning JS</title>
+    <link rel="stylesheet" href="/style.css" type="text/css">
+</head>
+<body>
+
+    <div class="wrapper">
+        <div>
+            <h1>Create new Entry</h1>
+            <form>
+                <input id="id-input" type="number" placeholder="ID"/>
+                <input type="submit" value="Add" />
+            </form>
+        </div>
+        <div>
+            <h2>All time entries</h2>
+            <div id="time-entries"></div>
+        </div>
+
+        <button onclick="deletelastEntry()" class="btn alert-btn">Delete last entry</button>
+    </div>
+    <script src="/common.js"></script>
+</body>
+</html>
