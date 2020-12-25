@@ -13,6 +13,7 @@
     "rules": {
         "no-console": "off",
         "global-require": 0,
+        "no-underscore-dangle": "off",
         "prettier/prettier": "error",
         "no-unexpected-multiline": "error"
     }

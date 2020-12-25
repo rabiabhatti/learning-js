@@ -1,10 +1,11 @@
-const express = require('express')
-const bodyParser = require('body-parser')
-const path = require('path')
+import express from 'express'
+import bodyParser from 'body-parser'
+import path from 'path'
 
 // const { sequelize } = require('./models')
 
 const PORT = 8080
+const __dirname = path.resolve()
 
 async function start() {
     const app = express()
