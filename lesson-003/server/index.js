@@ -2,7 +2,8 @@ import express from 'express'
 import bodyParser from 'body-parser'
 import path from 'path'
 
-// const { sequelize } = require('./models')
+// eslint-disable-next-line import/extensions
+import db from './models/index.js'
 
 const PORT = 8080
 const __dirname = path.resolve()
@@ -16,12 +17,12 @@ async function start() {
         res.sendFile(path.join(`${__dirname}/public/index.html`))
     })
 
-    // try {
-    //     await sequelize.authenticate()
-    //     console.log('Connection has been established successfully.')
-    // } catch (error) {
-    //     console.error('Unable to connect to the database:', error)
-    // }
+    try {
+        await db.authenticate()
+        console.log('Connection has been established successfully.')
+    } catch (error) {
+        console.error('Unable to connect to the database:', error)
+    }
 
     // require('./routes')(app)
 

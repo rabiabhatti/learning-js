@@ -1,9 +1,11 @@
 /* eslint-disable import/no-dynamic-require */
 
-const fs = require('fs')
-const path = require('path')
-const Sequelize = require('sequelize')
+import fs from 'fs'
+import path from 'path'
+import { fileURLToPath } from 'url'
+import Sequelize from 'sequelize'
 
+const __filename = fileURLToPath(import.meta.url)
 const basename = path.basename(__filename)
 const env = process.env.NODE_ENV || 'development'
 const config = require(`${__dirname}/../config/config.json`)[env]
@@ -28,7 +30,7 @@ fs.readdirSync(__dirname)
     )
     .forEach((file) => {
         // eslint-disable-next-line global-require
-        const model = sequelize.import(path.join(__dirname, file))(
+        const model = require(path.join(__dirname, file))(
             sequelize,
             Sequelize.DataTypes
         )
@@ -44,4 +46,4 @@ Object.keys(db).forEach((modelName) => {
 db.sequelize = sequelize
 db.Sequelize = Sequelize
 
-module.exports = db
+export default db

@@ -1,0 +1,26 @@
+{
+    "development": {
+        "username": "pharmadb",
+        "password": "admin",
+        "database": "pharmadb",
+        "host": "127.0.0.1",
+        "port": 5432,
+        "dialect": "postgres"
+    },
+    "test": {
+        "username": "pharmadb",
+        "password": "admin",
+        "database": "pharmadb",
+        "host": "127.0.0.1",
+        "port": 5432,
+        "dialect": "postgres"
+    },
+    "production": {
+        "username": "pharmadb",
+        "password": "admin",
+        "database": "pharmadb",
+        "host": "127.0.0.1",
+        "port": 5432,
+        "dialect": "postgres"
+    }
+}
