@@ -2,11 +2,14 @@
 
 import fs from 'fs'
 import path from 'path'
+import { createRequire } from 'module'
 import { fileURLToPath } from 'url'
 import Sequelize from 'sequelize'
 
+const require = createRequire(import.meta.url)
 const __filename = fileURLToPath(import.meta.url)
 const basename = path.basename(__filename)
+const __dirname = path.resolve()
 const env = process.env.NODE_ENV || 'development'
 const config = require(`${__dirname}/../config/config.json`)[env]
 const db = {}
@@ -30,7 +33,7 @@ fs.readdirSync(__dirname)
     )
     .forEach((file) => {
         // eslint-disable-next-line global-require
-        const model = require(path.join(__dirname, file))(
+        const model = sequelize.import(path.join(__dirname, file))(
             sequelize,
             Sequelize.DataTypes
         )
