@@ -3,7 +3,7 @@ import bodyParser from 'body-parser'
 import path from 'path'
 
 // eslint-disable-next-line import/extensions
-import { db } from './models/index.js'
+import db from './models'
 
 const PORT = 8080
 const __dirname = path.resolve()
@@ -18,7 +18,7 @@ async function start() {
     })
 
     try {
-        await db.authenticate()
+        await db.sequelize.authenticate()
         console.log('Connection has been established successfully.')
     } catch (error) {
         console.error('Unable to connect to the database:', error)

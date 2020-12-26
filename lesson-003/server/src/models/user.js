@@ -57,7 +57,7 @@ module.exports = (sequelize, DataTypes) => {
         }
     )
     User.associate = (models) => {
-        User.Orders = User.hasMany(models.Order)
+        User.Orders = User.hasMany(models.order)
     }
     return User
 }
