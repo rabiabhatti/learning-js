@@ -34,7 +34,7 @@ module.exports = (sequelize, DataTypes) => {
         }
     )
     Medicine.associate = (models) => {
-        Medicine.User = Medicine.belongsTo(models.User)
+        Medicine.Brand = Medicine.belongsTo(models.Brand)
         Medicine.Orders = Medicine.hasMany(models.Order)
     }
     return Medicine

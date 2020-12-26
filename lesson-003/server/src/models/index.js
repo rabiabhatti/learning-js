@@ -2,16 +2,11 @@
 
 import fs from 'fs'
 import path from 'path'
-import { createRequire } from 'module'
-import { fileURLToPath } from 'url'
 import Sequelize from 'sequelize'
+import sequelizeConfig from '../../config/config.json'
 
-const require = createRequire(import.meta.url)
-const __filename = fileURLToPath(import.meta.url)
-const basename = path.basename(__filename)
-const __dirname = path.resolve()
 const env = process.env.NODE_ENV || 'development'
-const config = require(`${__dirname}/../config/config.json`)[env]
+const config = sequelizeConfig[env]
 const db = {}
 
 let sequelize
@@ -29,14 +24,11 @@ if (config.use_env_variable) {
 fs.readdirSync(__dirname)
     .filter(
         (file) =>
-            !file.startsWith('.') && file !== basename && file.endsWith('.js')
+            !file.startsWith('.') && file !== 'index.js' && file.endsWith('.js')
     )
     .forEach((file) => {
         // eslint-disable-next-line global-require
-        const model = sequelize.import(path.join(__dirname, file))(
-            sequelize,
-            Sequelize.DataTypes
-        )
+        const model = require(path.join(__dirname, file))(sequelize, Sequelize)
         db[model.name] = model
     })
 
@@ -49,4 +41,5 @@ Object.keys(db).forEach((modelName) => {
 db.sequelize = sequelize
 db.Sequelize = Sequelize
 
-export default db
+
+module.exports = db

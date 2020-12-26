@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
         }
     )
     Brand.associate = (models) => {
-        Brand.Generics = Brand.hasMany(models.Generic)
+        // Brand.Generics = Brand.hasMany(models.Generic)
         Brand.Medicine = Brand.hasMany(models.Medicine)
     }
     return Brand

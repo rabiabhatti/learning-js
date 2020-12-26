@@ -3,7 +3,7 @@ import bodyParser from 'body-parser'
 import path from 'path'
 
 // eslint-disable-next-line import/extensions
-import db from './models/index.js'
+import { db } from './models/index.js'
 
 const PORT = 8080
 const __dirname = path.resolve()

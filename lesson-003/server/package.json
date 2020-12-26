@@ -2,25 +2,24 @@
     "name": "pharma-server",
     "version": "1.0.0",
     "description": "",
-    "type": "module",
     "main": "index.js",
     "scripts": {
-        "start": "node index.js",
-        "dev": "nodemon —-exec babel-node index.js"
+        "build": "sb-babel-cli src -o lib",
+        "watch": "npm run build -- --watch",
+        "dev": "npm run watch -- -x lib/index.js"
     },
     "author": "Rabia Iqbal",
     "license": "ISC",
     "devDependencies": {
+        "@babel/core": "^7.12.10",
+        "@babel/preset-env": "^7.12.11",
         "eslint": "^7.16.0",
         "eslint-config-airbnb-base": "^14.2.1",
         "eslint-config-prettier": "^7.1.0",
         "eslint-plugin-import": "^2.22.1",
         "eslint-plugin-prettier": "^3.3.0",
-        "nodemon": "^2.0.6",
         "prettier": "2.2.1",
-        "@babel/core": "^7.12.10",
-        "@babel/node": "^7.12.10",
-        "@babel/preset-env": "^7.12.11"
+        "sb-babel-cli": "^4.1.0-beta1"
     },
     "dependencies": {
         "body-parser": "^1.19.0",
