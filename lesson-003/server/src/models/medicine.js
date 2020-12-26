@@ -34,7 +34,9 @@ module.exports = (sequelize, DataTypes) => {
         }
     )
     Medicine.associate = (models) => {
-        Medicine.Brand = Medicine.belongsTo(models.brand)
+        Medicine.Brand = Medicine.belongsTo(models.brand, {
+            foreignKey: 'brandId',
+        })
         Medicine.Orders = Medicine.hasMany(models.order)
     }
     return Medicine

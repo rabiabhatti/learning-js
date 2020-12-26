@@ -18,8 +18,12 @@ module.exports = (sequelize, DataTypes) => {
         }
     )
     Generic.associate = (models) => {
-        Generic.Brands = Generic.hasMany(models.brand)
-        Generic.Medicines = Generic.hasMany(models.medicine)
+        Generic.Brands = Generic.hasMany(models.brand, {
+            foreignKey: 'brandId',
+        })
+        Generic.Medicines = Generic.hasMany(models.medicine, {
+            foreignKey: 'medicineId',
+        })
     }
     return Generic
 }
