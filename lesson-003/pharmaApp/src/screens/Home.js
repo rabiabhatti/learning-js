@@ -1,12 +1,7 @@
 import React, {useState} from 'react';
-import {
-    View,
-    Text,
-    Button,
-} from 'react-native';
+import {View, Text, Button} from 'react-native';
 
-function Home() {
-  // Declare a new state variable, which we'll call "count"
+function Home({navigation}) {
   const [count, setCount] = useState(0);
 
   return (
@@ -17,6 +12,10 @@ function Home() {
         title="Learn More"
         color="#841584"
         accessibilityLabel="Learn more about this purple button"
+      />
+      <Button
+        onPress={() => navigation.navigate('Medicine')}
+        title="Go to Medicine"
       />
     </View>
   );

@@ -1,19 +1,6 @@
 import React from 'react';
-import {
-  SafeAreaView,
-  StyleSheet,
-  ScrollView,
-  View,
-  Text,
-  StatusBar,
-} from 'react-native';
-import {
-  Header,
-  LearnMoreLinks,
-  Colors,
-  DebugInstructions,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
+import {StyleSheet} from 'react-native';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {Provider} from 'react-redux';
@@ -21,7 +8,7 @@ import {PersistGate} from 'redux-persist/integration/react';
 
 import {store, persistor} from './redux';
 
-import Home from './screens/Home';
+import {Home, Medicine} from './screens';
 
 const Stack = createStackNavigator();
 
@@ -32,6 +19,7 @@ function App() {
         <NavigationContainer>
           <Stack.Navigator>
             <Stack.Screen name="Home" component={Home} />
+            <Stack.Screen name="Medicine" component={Medicine} />
           </Stack.Navigator>
         </NavigationContainer>
       </PersistGate>
