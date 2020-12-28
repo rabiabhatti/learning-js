@@ -1,26 +1,28 @@
 import React from 'react';
+import {Provider} from 'react-redux';
 import {StyleSheet} from 'react-native';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
-import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
-import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
+import {NavigationContainer} from '@react-navigation/native';
+import {createDrawerNavigator} from '@react-navigation/drawer';
 
 import {store, persistor} from './redux';
 
-import {Home, Medicine} from './screens';
+import MainStackNavigator from './navigation/Stack';
+import {SideMenu} from './components';
 
-const Stack = createStackNavigator();
+const Drawer = createDrawerNavigator();
 
 function App() {
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
         <NavigationContainer>
-          <Stack.Navigator>
-            <Stack.Screen name="Home" component={Home} />
-            <Stack.Screen name="Medicine" component={Medicine} />
-          </Stack.Navigator>
+          <Drawer.Navigator
+            initialRouteName="Home"
+            drawerContent={(props) => <SideMenu {...props} />}>
+            <Drawer.Screen name="Home" component={MainStackNavigator} />
+          </Drawer.Navigator>
         </NavigationContainer>
       </PersistGate>
     </Provider>
