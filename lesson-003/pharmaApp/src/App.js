@@ -1,7 +1,6 @@
 import React from 'react';
 import {Provider} from 'react-redux';
-import {StyleSheet, Dimensions} from 'react-native';
-import {Colors} from 'react-native/Libraries/NewAppScreen';
+import {Dimensions} from 'react-native';
 import {PersistGate} from 'redux-persist/integration/react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createDrawerNavigator} from '@react-navigation/drawer';
@@ -22,6 +21,7 @@ function App() {
             initialRouteName="Home"
             hideStatusBar={false}
             overlayColor="#0000003b"
+            mode="modal"
             drawerWidth={Dimensions.get('window').width - 80}
             drawerContent={(props) => <SideMenu {...props} />}>
             <Drawer.Screen name="Home" component={MainStackNavigator} />
@@ -31,44 +31,5 @@ function App() {
     </Provider>
   );
 }
-
-const styles = StyleSheet.create({
-  scrollView: {
-    backgroundColor: Colors.lighter,
-  },
-  engine: {
-    position: 'absolute',
-    right: 0,
-  },
-  body: {
-    backgroundColor: Colors.white,
-  },
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: Colors.black,
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-    color: Colors.dark,
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-  footer: {
-    color: Colors.dark,
-    fontSize: 12,
-    fontWeight: '600',
-    padding: 4,
-    paddingRight: 12,
-    textAlign: 'right',
-  },
-});
 
 export default App;
