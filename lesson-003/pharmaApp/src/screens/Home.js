@@ -1,24 +1,41 @@
 import React, {useState} from 'react';
-import {View, Text, Button} from 'react-native';
+import {StyleSheet} from 'react-native';
+import {View, Text} from 'react-native';
+
+import {Button, Wrapper, Header} from '../components';
+import variables from '../utils/css-variables';
 
 function Home({navigation}) {
   const [count, setCount] = useState(0);
 
   return (
-    <View>
+    <Wrapper style={styles.wrapperStyle}>
       <Text>You clicked {count} times</Text>
-      <Button
-        onPress={() => setCount(count + 1)}
-        title="Learn More"
-        color="#841584"
-        accessibilityLabel="Learn more about this purple button"
-      />
+      <Button title="Click me" onPress={() => setCount(count + 1)} />
       <Button
         onPress={() => navigation.navigate('Medicine')}
         title="Go to Medicine"
       />
-    </View>
+    </Wrapper>
   );
 }
+
+const styles = StyleSheet.create({
+  wrapperStyle: {
+    paddingHorizontal: 10,
+  },
+});
+
+// Home.navigationOptions = ({navigation}) => ({
+//   header: <Header navigation={navigation} />,
+//   headerStyle: {
+//     backgroundColor: variables.colors.blue,
+//   },
+//   // headerStyle: {
+//   //   borderBottomWidth: 1,
+//   //   backgroundColor: 'red',
+//   //   borderBottomColor: '#10837d',
+//   // },
+// });
 
 export default Home;

@@ -1,6 +1,6 @@
 import React from 'react';
 import {Provider} from 'react-redux';
-import {StyleSheet} from 'react-native';
+import {StyleSheet, Dimensions} from 'react-native';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {PersistGate} from 'redux-persist/integration/react';
 import {NavigationContainer} from '@react-navigation/native';
@@ -20,6 +20,9 @@ function App() {
         <NavigationContainer>
           <Drawer.Navigator
             initialRouteName="Home"
+            hideStatusBar={false}
+            overlayColor="#0000003b"
+            drawerWidth={Dimensions.get('window').width - 80}
             drawerContent={(props) => <SideMenu {...props} />}>
             <Drawer.Screen name="Home" component={MainStackNavigator} />
           </Drawer.Navigator>
