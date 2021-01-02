@@ -18,12 +18,8 @@ module.exports = {
                 type: Sequelize.DataTypes.ARRAY(Sequelize.DataTypes.STRING),
                 allowNull: false,
             },
-            password: {
+            catergory: {
                 type: Sequelize.DataTypes.STRING,
-                allowNull: false,
-            },
-            details: {
-                type: Sequelize.DataTypes.JSON,
                 allowNull: true,
             },
             brandId: {
@@ -40,5 +36,5 @@ module.exports = {
             },
         }),
     down: (queryInterface /* , Sequelize */) =>
-        queryInterface.dropTable('users'),
+        queryInterface.dropTable('medicines'),
 }

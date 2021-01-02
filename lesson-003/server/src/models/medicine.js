@@ -20,12 +20,8 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.ARRAY(DataTypes.STRING),
                 allowNull: false,
             },
-            password: {
+            catergory: {
                 type: DataTypes.STRING,
-                allowNull: false,
-            },
-            details: {
-                type: DataTypes.JSON,
                 allowNull: true,
             },
         },

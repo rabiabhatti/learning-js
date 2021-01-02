@@ -9,7 +9,7 @@ module.exports = {
             pending: {
                 type: Sequelize.DataTypes.BOOLEAN,
                 allowNull: false,
-                defaultValue: false,
+                defaultValue: true,
             },
             userId: {
                 type: Sequelize.DataTypes.INTEGER,
@@ -29,5 +29,5 @@ module.exports = {
             },
         }),
     down: (queryInterface /* , Sequelize */) =>
-        queryInterface.dropTable('users'),
+        queryInterface.dropTable('orders'),
 }

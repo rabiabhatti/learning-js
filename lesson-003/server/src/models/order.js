@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
             pending: {
                 type: DataTypes.BOOLEAN,
                 allowNull: false,
-                defaultValue: false,
+                defaultValue: true,
             },
         },
         {
