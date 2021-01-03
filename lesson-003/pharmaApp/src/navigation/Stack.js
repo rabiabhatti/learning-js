@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-import {Home, Medicine, Cart, Search} from '../screens';
+import {Home, Medicine, Cart, Search, Prescription} from '../screens';
 import variables from '../utils/css-variables';
 
 const Stack = createStackNavigator();
@@ -67,6 +67,7 @@ const MainStackNavigator = () => {
       <Stack.Screen name="Medicine" component={Medicine} />
       <Stack.Screen name="Cart" component={Cart} />
       <Stack.Screen name="Search" component={Search} />
+      <Stack.Screen name="Prescription" component={Prescription} />
     </Stack.Navigator>
   );
 };
