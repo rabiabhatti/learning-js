@@ -7,20 +7,26 @@ import {
   Dimensions,
   Image,
   Linking,
+  Platform,
   TouchableOpacity,
+  TouchableWithoutFeedback,
 } from 'react-native';
 
-import {Button, Wrapper} from '../components';
 import variables from '../utils/css-variables';
-import {medicines, carousel} from '../utils/data';
 import useInterval from '../hooks/useInterval';
+import {Wrapper, CardSlider} from '../components';
+import {medicines, carousel, TEL_NUMBER} from '../utils/data';
 
 const {width} = Dimensions.get('window');
 
-const TEL_NUMBER = '1234567890';
+const categories = [
+  'Covid-19 Spacial',
+  'Cardiac Care',
+  'Diabetes Care',
+  'Herbal and others',
+];
 
 function Home({navigation}) {
-  const [count, setCount] = useState(0);
   const [sliderPosition, setSliderPosition] = React.useState(0);
   const slider = useRef('');
 
@@ -99,12 +105,32 @@ function Home({navigation}) {
             <Text style={styles.linksDimText}>9AM to 11PM</Text>
           </View>
         </TouchableOpacity>
-        <Text>You clicked {count} times</Text>
-        <Button title="Click me" onPress={() => setCount(count + 1)} />
-        <Button
-          onPress={() => navigation.navigate('Medicine')}
-          title="Go to Medicine"
-        />
+        {categories.map((c, i) => (
+          <View key={i} style={styles.categoryContainer}>
+            <Text style={styles.categoryHeading}>{c}</Text>
+            <CardSlider>
+              {medicines.map((item, index) => (
+                <TouchableWithoutFeedback
+                  key={index}
+                  onPress={() =>
+                    navigation.navigate('Medicine', {medicine: item})
+                  }>
+                  <View style={styles.cardContainer}>
+                    <Image
+                      resizeMode="contain"
+                      source={{uri: `${item.url}`}}
+                      style={styles.cardImage}
+                    />
+                    <Text style={styles.categoryMedicine} numberOfLines={2}>
+                      {item.name}
+                    </Text>
+                    <Text style={styles.linksDimText}>Rs. {item.price}</Text>
+                  </View>
+                </TouchableWithoutFeedback>
+              ))}
+            </CardSlider>
+          </View>
+        ))}
       </ScrollView>
     </Wrapper>
   );
@@ -139,17 +165,26 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignContent: 'center',
     width: '100%',
-    elevation: 8,
     backgroundColor: variables.colors.white,
     paddingVertical: variables.spacing.small,
     marginBottom: variables.spacing.extraSmall,
     paddingHorizontal: variables.spacing.extraSmall,
+    ...Platform.select({
+      ios: {
+        shadowColor: '#b0b0b0',
+        shadowOffset: {width: 0, height: 2},
+        shadowOpacity: 0.75,
+      },
+      android: {
+        elevation: 2,
+      },
+    }),
   },
   linksText: {
-    color: '#4F585E',
     fontWeight: '600',
     paddingBottom: 4,
     fontSize: variables.fontSize.s,
+    color: variables.colors.headingtext,
   },
   linksDimText: {
     fontSize: 13,
@@ -160,6 +195,48 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     marginRight: variables.spacing.extraSmall,
+  },
+  categoryContainer: {
+    width: '100%',
+    marginBottom: variables.spacing.extraSmall,
+  },
+  categoryHeading: {
+    fontWeight: 'bold',
+    color: variables.colors.grey3,
+    fontSize: variables.fontSize.s,
+  },
+  cardContainer: {
+    padding: 10,
+    marginLeft: 0,
+    marginRight: 7,
+    shadowRadius: 1,
+    borderRadius: 4,
+    backgroundColor: '#fff',
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+    justifyContent: 'space-between',
+    marginTop: variables.spacing.extraSmall,
+    ...Platform.select({
+      ios: {
+        shadowColor: '#b0b0b0',
+        shadowOffset: {width: 0, height: 2},
+        shadowOpacity: 0.75,
+      },
+      android: {
+        elevation: 2,
+      },
+    }),
+  },
+  cardImage: {
+    width: 130,
+    height: 130,
+    alignSelf: 'center',
+  },
+  categoryMedicine: {
+    height: 40,
+    fontSize: 14,
+    fontWeight: '600',
+    color: variables.colors.headingtext,
   },
 });
 

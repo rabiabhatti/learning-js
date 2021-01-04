@@ -4,7 +4,7 @@ const variables = {
     white: '#fff',
     border: '#dadce0',
     bodytext: '#3c4043',
-    headingtext: '#202124',
+    headingtext: '#4F585E',
     grey1: '#F7F7F7',
     grey2: '#999',
     grey3: '#757575',

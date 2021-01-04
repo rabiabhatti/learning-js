@@ -1,58 +1,58 @@
 const medicines = [
   {
-    name: 'Calcium plus Vitamin D3 - 500 mg (300 Tablets)',
-    url:
-      'https://encrypted-tbn0.gstatic.com/urls?q=tbn%3AANd9GcRTwXrRSSf5EREiKDTdYYF3ohc3Bp-DRzgbdi61cQOmhg32QMzG',
-    price: '47',
-    category: 'tablet',
-  },
-  {
     name: 'Prevenar Injection',
     url:
       'https://cdn.shopify.com/s/files/1/0088/4758/9476/products/03389_1800x1800.jpg?v=1596439066',
-    category: 'injection',
+    type: 'injection',
     price: '5,476.30',
-  },
-  {
-    name: 'Panadol 500mg Tablets 200',
-    url:
-      'https://i-cf3.gskstatic.com/content/dam/cf-consumer-healthcare/panadol/en_ie/ireland-products/panadol-tablets/MGK5158-GSK-Panadol-Tablets-455x455.png',
-    price: '47',
-    category: 'tablet',
-  },
-  {
-    name: 'Pulmonol Cough Syrup 120ml',
-    url:
-      'https://cdn.shopify.com/s/files/1/0088/4758/9476/products/06468_1800x1800.jpg?v=1596439345',
-    category: 'syrup',
-    price: '79.60',
   },
   {
     name: 'Caldin-C Tablets',
     url:
       'http://esraapharma.com/wp-content/uploads/2018/10/02-Caldin-C-Tablets-1.png',
     price: '21',
-    category: 'tablet',
+    type: 'tablet',
+  },
+  {
+    name: 'Calcium plus Vitamin D3 - 500 mg (300 Tablets)',
+    url:
+      'https://encrypted-tbn0.gstatic.com/urls?q=tbn%3AANd9GcRTwXrRSSf5EREiKDTdYYF3ohc3Bp-DRzgbdi61cQOmhg32QMzG',
+    price: '47',
+    type: 'tablet',
+  },
+  {
+    name: 'Panadol 500mg Tablets 200',
+    url:
+      'https://i-cf3.gskstatic.com/content/dam/cf-consumer-healthcare/panadol/en_ie/ireland-products/panadol-tablets/MGK5158-GSK-Panadol-Tablets-455x455.png',
+    price: '47',
+    type: 'tablet',
+  },
+  {
+    name: 'Pulmonol Cough Syrup 120ml',
+    url:
+      'https://cdn.shopify.com/s/files/1/0088/4758/9476/products/06468_1800x1800.jpg?v=1596439345',
+    type: 'syrup',
+    price: '79.60',
   },
   {
     name: 'Disprin (Soluble Aspirin) 300MG 100 Tablets',
     url:
       'https://products.dawaai.pk/2017/11/18221/item/recdis18221_101597130827.jpg',
     price: '15.08',
-    category: 'tablet',
+    type: 'tablet',
   },
   {
     name: 'Pulmonol Cough Syrup 120ml',
     url:
       'https://cdn.shopify.com/s/files/1/0088/4758/9476/products/06468_1800x1800.jpg?v=1596439345',
-    category: 'syrup',
+    type: 'syrup',
     price: '79.60',
   },
   {
     name: 'Prevenar Injection',
     url:
       'https://cdn.shopify.com/s/files/1/0088/4758/9476/products/03389_1800x1800.jpg?v=1596439066',
-    category: 'injection',
+    type: 'injection',
     price: '5,476.30',
   },
   {
@@ -60,14 +60,14 @@ const medicines = [
     url:
       'https://cdn.shopify.com/s/files/1/0088/4758/9476/products/06639_2_1800x1800.jpg?v=1596438752',
     price: '611',
-    category: 'tablet',
+    type: 'tablet',
   },
   {
     name: 'Disprin (Soluble Aspirin) 300MG 100 Tablets',
     url:
       'https://products.dawaai.pk/2017/11/18221/item/recdis18221_101597130827.jpg',
     price: '15.08',
-    category: 'tablet',
+    type: 'tablet',
   },
 ];
 
@@ -225,4 +225,6 @@ const carousel = [
   {src: require('../img/carousel-4.jpg')},
 ];
 
-export {medicines, products, carousel};
+const TEL_NUMBER = '1234567890';
+
+export {medicines, products, carousel, TEL_NUMBER};
