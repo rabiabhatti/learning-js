@@ -18,7 +18,19 @@ module.exports = {
                 type: Sequelize.DataTypes.ARRAY(Sequelize.DataTypes.STRING),
                 allowNull: false,
             },
+            type: {
+                type: Sequelize.DataTypes.STRING,
+                allowNull: true,
+            },
+            composition: {
+                type: Sequelize.DataTypes.STRING,
+                allowNull: true,
+            },
             catergory: {
+                type: Sequelize.DataTypes.STRING,
+                allowNull: true,
+            },
+            strength: {
                 type: Sequelize.DataTypes.STRING,
                 allowNull: true,
             },

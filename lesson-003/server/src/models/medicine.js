@@ -20,10 +20,22 @@ module.exports = (sequelize, DataTypes) => {
                 type: DataTypes.ARRAY(DataTypes.STRING),
                 allowNull: false,
             },
+            type: {
+                type: DataTypes.STRING,
+                allowNull: true,
+            },
+            composition: {
+                type: DataTypes.STRING,
+                allowNull: true,
+            },
             catergory: {
                 type: DataTypes.STRING,
                 allowNull: true,
             },
+            strength: {
+                type: DataTypes.STRING,
+                allowNull: true,
+            }
         },
         {
             timestamps: true,
