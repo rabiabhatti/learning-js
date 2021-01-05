@@ -6,6 +6,7 @@ const medicines = [
     type: 'injection',
     price: '5,476.30',
     strength: '3mg/0.3mg',
+    rx_req: true,
     composition: 'Paracetamol / Acetaminophen',
   },
   {
@@ -15,6 +16,7 @@ const medicines = [
     price: '21',
     type: 'tablet',
     strength: '3mg/0.3mg',
+    rx_req: false,
     composition: 'Paracetamol / Acetaminophen',
   },
   {
@@ -24,6 +26,7 @@ const medicines = [
     price: '47',
     type: 'tablet',
     strength: '3mg/0.3mg',
+    rx_req: false,
     composition: 'Paracetamol / Acetaminophen',
   },
   {
@@ -33,6 +36,7 @@ const medicines = [
     price: '47',
     type: 'tablet',
     strength: '3mg/0.3mg',
+    rx_req: true,
     composition: 'Paracetamol / Acetaminophen',
   },
   {
@@ -42,6 +46,7 @@ const medicines = [
     type: 'syrup',
     price: '79.60',
     strength: '3mg/0.3mg',
+    rx_req: false,
     composition: 'Paracetamol / Acetaminophen',
   },
   {
@@ -52,6 +57,7 @@ const medicines = [
     type: 'tablet',
     strength: '3mg/0.3mg',
     composition: 'Paracetamol / Acetaminophen',
+    rx_req: true,
   },
   {
     name: 'Pulmonol Cough Syrup 120ml',
@@ -60,6 +66,7 @@ const medicines = [
     type: 'syrup',
     price: '79.60',
     strength: '3mg/0.3mg',
+    rx_req: true,
     composition: 'Paracetamol / Acetaminophen',
   },
   {
@@ -69,6 +76,7 @@ const medicines = [
     type: 'injection',
     price: '5,476.30',
     strength: '3mg/0.3mg',
+    rx_req: false,
     composition: 'Paracetamol / Acetaminophen',
   },
   {
@@ -78,6 +86,7 @@ const medicines = [
     price: '611',
     type: 'tablet',
     strength: '3mg/0.3mg',
+    rx_req: true,
     composition: 'Paracetamol / Acetaminophen',
   },
   {
@@ -87,6 +96,7 @@ const medicines = [
     price: '15.08',
     type: 'tablet',
     strength: '3mg/0.3mg',
+    rx_req: false,
     composition: 'Paracetamol / Acetaminophen',
   },
 ];
