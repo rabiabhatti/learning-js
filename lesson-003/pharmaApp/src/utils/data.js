@@ -5,6 +5,8 @@ const medicines = [
       'https://cdn.shopify.com/s/files/1/0088/4758/9476/products/03389_1800x1800.jpg?v=1596439066',
     type: 'injection',
     price: '5,476.30',
+    strength: '3mg/0.3mg',
+    composition: 'Paracetamol / Acetaminophen',
   },
   {
     name: 'Caldin-C Tablets',
@@ -12,6 +14,8 @@ const medicines = [
       'http://esraapharma.com/wp-content/uploads/2018/10/02-Caldin-C-Tablets-1.png',
     price: '21',
     type: 'tablet',
+    strength: '3mg/0.3mg',
+    composition: 'Paracetamol / Acetaminophen',
   },
   {
     name: 'Calcium plus Vitamin D3 - 500 mg (300 Tablets)',
@@ -19,6 +23,8 @@ const medicines = [
       'https://encrypted-tbn0.gstatic.com/urls?q=tbn%3AANd9GcRTwXrRSSf5EREiKDTdYYF3ohc3Bp-DRzgbdi61cQOmhg32QMzG',
     price: '47',
     type: 'tablet',
+    strength: '3mg/0.3mg',
+    composition: 'Paracetamol / Acetaminophen',
   },
   {
     name: 'Panadol 500mg Tablets 200',
@@ -26,6 +32,8 @@ const medicines = [
       'https://i-cf3.gskstatic.com/content/dam/cf-consumer-healthcare/panadol/en_ie/ireland-products/panadol-tablets/MGK5158-GSK-Panadol-Tablets-455x455.png',
     price: '47',
     type: 'tablet',
+    strength: '3mg/0.3mg',
+    composition: 'Paracetamol / Acetaminophen',
   },
   {
     name: 'Pulmonol Cough Syrup 120ml',
@@ -33,6 +41,8 @@ const medicines = [
       'https://cdn.shopify.com/s/files/1/0088/4758/9476/products/06468_1800x1800.jpg?v=1596439345',
     type: 'syrup',
     price: '79.60',
+    strength: '3mg/0.3mg',
+    composition: 'Paracetamol / Acetaminophen',
   },
   {
     name: 'Disprin (Soluble Aspirin) 300MG 100 Tablets',
@@ -40,6 +50,8 @@ const medicines = [
       'https://products.dawaai.pk/2017/11/18221/item/recdis18221_101597130827.jpg',
     price: '15.08',
     type: 'tablet',
+    strength: '3mg/0.3mg',
+    composition: 'Paracetamol / Acetaminophen',
   },
   {
     name: 'Pulmonol Cough Syrup 120ml',
@@ -47,6 +59,8 @@ const medicines = [
       'https://cdn.shopify.com/s/files/1/0088/4758/9476/products/06468_1800x1800.jpg?v=1596439345',
     type: 'syrup',
     price: '79.60',
+    strength: '3mg/0.3mg',
+    composition: 'Paracetamol / Acetaminophen',
   },
   {
     name: 'Prevenar Injection',
@@ -54,6 +68,8 @@ const medicines = [
       'https://cdn.shopify.com/s/files/1/0088/4758/9476/products/03389_1800x1800.jpg?v=1596439066',
     type: 'injection',
     price: '5,476.30',
+    strength: '3mg/0.3mg',
+    composition: 'Paracetamol / Acetaminophen',
   },
   {
     name: 'Aprovel Tablets 150mg 2X14',
@@ -61,6 +77,8 @@ const medicines = [
       'https://cdn.shopify.com/s/files/1/0088/4758/9476/products/06639_2_1800x1800.jpg?v=1596438752',
     price: '611',
     type: 'tablet',
+    strength: '3mg/0.3mg',
+    composition: 'Paracetamol / Acetaminophen',
   },
   {
     name: 'Disprin (Soluble Aspirin) 300MG 100 Tablets',
@@ -68,6 +86,8 @@ const medicines = [
       'https://products.dawaai.pk/2017/11/18221/item/recdis18221_101597130827.jpg',
     price: '15.08',
     type: 'tablet',
+    strength: '3mg/0.3mg',
+    composition: 'Paracetamol / Acetaminophen',
   },
 ];
 
