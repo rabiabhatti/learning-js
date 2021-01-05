@@ -29,7 +29,7 @@ const variables = {
     large: 25,
     extraLarge: 30,
   },
-  borderRadius: 10,
+  borderRadius: 3,
 };
 
 export default variables;

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, {useState} from 'react';
 import {
   View,
   StyleSheet,
@@ -8,13 +8,15 @@ import {
   Image,
   TouchableOpacity,
 } from 'react-native';
+import RNPickerSelect from 'react-native-picker-select';
 
-import {Wrapper} from '../components';
+import {Wrapper, Button} from '../components';
 import variables from '../utils/css-variables';
+import { medicines } from '../utils/data';
 
 function Medicine(props) {
   const {medicine} = props.route.params;
-  // console.log('props', medicine);
+  const [quantity, setQuantity] = useState(1);
   return (
     <Wrapper>
       <ScrollView
@@ -68,7 +70,32 @@ function Medicine(props) {
               style={styles.bannerImg}
             />
           )}
-          {/* <Button onPress={() => props.navigation.goBack()} title="Go back home" /> */}
+          <Text style={styles.price}>Rs. {medicine.price * quantity}</Text>
+          <View style={styles.pickerContainer}>
+            <View>
+              <Text style={styles.medicineQty}>{medicine.unit}</Text>
+              <RNPickerSelect
+                useNativeAndroidPickerStyle={false}
+                placeholder={{}}
+                style={{...pickerSelectStyles}}
+                value={quantity}
+                onValueChange={(q) => setQuantity(q)}
+                items={[
+                  {label: 'Qty 1', value: 1},
+                  {label: 'Qty 2', value: 2},
+                  {label: 'Qty 3', value: 3},
+                  {label: 'Qty 4', value: 4},
+                  {label: 'Qty 5', value: 5},
+                  {label: 'Qty 6', value: 6},
+                  {label: 'Qty 7', value: 7},
+                  {label: 'Qty 8', value: 8},
+                  {label: 'Qty 9', value: 9},
+                  {label: 'Qty 10', value: 10},
+                ]}
+              />
+            </View>
+            <Button title="ADD TO CART" onPress={() => console.log('hello')} />
+          </View>
         </View>
       </ScrollView>
     </Wrapper>
@@ -150,6 +177,46 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: variables.colors.blue,
     marginLeft: variables.spacing.extraSmall,
+  },
+  price: {
+    fontSize: variables.fontSize.xl,
+    marginBottom: variables.spacing.extraSmall,
+  },
+  pickerContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  medicineQty: {
+    color: variables.colors.bodytext,
+    marginBottom: variables.spacing.extraSmall,
+  },
+});
+
+const pickerSelectStyles = StyleSheet.create({
+  inputIOS: {
+    width: 100,
+    fontSize: 15,
+    borderWidth: 1,
+    paddingVertical: 2,
+    paddingHorizontal: 8,
+    alignItems: 'center',
+    color: variables.colors.grey3,
+    borderRadius: variables.borderRadius,
+    borderColor: variables.colors.border,
+    backgroundColor: variables.colors.white,
+  },
+  inputAndroid: {
+    width: 100,
+    fontSize: 15,
+    borderWidth: 1,
+    paddingVertical: 2,
+    paddingHorizontal: 8,
+    alignItems: 'center',
+    color: variables.colors.grey3,
+    borderRadius: variables.borderRadius,
+    borderColor: variables.colors.border,
+    backgroundColor: variables.colors.white,
   },
 });
 

@@ -15,17 +15,15 @@ function Button(props) {
 
 const styles = StyleSheet.create({
   buttonContainer: {
-    elevation: 8,
     borderRadius: variables.borderRadius,
+    padding: variables.spacing.extraSmall,
     backgroundColor: variables.colors.blue,
-    marginVertical: variables.spacing.small,
-    paddingVertical: variables.spacing.extraSmall,
-    paddingHorizontal: variables.spacing.extraSmall,
   },
   text: {
+    fontWeight: 'bold',
     textAlign: 'center',
     color: variables.colors.white,
-    fontSize: variables.fontSize.m,
+    fontSize: variables.fontSize.s,
   },
 });
 

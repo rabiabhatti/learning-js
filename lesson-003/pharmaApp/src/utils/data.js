@@ -4,9 +4,10 @@ const medicines = [
     url:
       'https://cdn.shopify.com/s/files/1/0088/4758/9476/products/03389_1800x1800.jpg?v=1596439066',
     type: 'injection',
-    price: '5,476.30',
+    price: '5476.30',
     strength: '3mg/0.3mg',
     rx_req: true,
+    unit: '1 tablet / stripe',
     composition: 'Paracetamol / Acetaminophen',
   },
   {
@@ -17,6 +18,7 @@ const medicines = [
     type: 'tablet',
     strength: '3mg/0.3mg',
     rx_req: false,
+    unit: '1 tablet / stripe',
     composition: 'Paracetamol / Acetaminophen',
   },
   {
@@ -27,6 +29,7 @@ const medicines = [
     type: 'tablet',
     strength: '3mg/0.3mg',
     rx_req: false,
+    unit: '1 tablet / stripe',
     composition: 'Paracetamol / Acetaminophen',
   },
   {
@@ -37,6 +40,7 @@ const medicines = [
     type: 'tablet',
     strength: '3mg/0.3mg',
     rx_req: true,
+    unit: '1 tablet / stripe',
     composition: 'Paracetamol / Acetaminophen',
   },
   {
@@ -47,6 +51,7 @@ const medicines = [
     price: '79.60',
     strength: '3mg/0.3mg',
     rx_req: false,
+    unit: '1 tablet / stripe',
     composition: 'Paracetamol / Acetaminophen',
   },
   {
@@ -56,6 +61,7 @@ const medicines = [
     price: '15.08',
     type: 'tablet',
     strength: '3mg/0.3mg',
+    unit: '1 tablet / stripe',
     composition: 'Paracetamol / Acetaminophen',
     rx_req: true,
   },
@@ -67,6 +73,7 @@ const medicines = [
     price: '79.60',
     strength: '3mg/0.3mg',
     rx_req: true,
+    unit: '1 tablet / stripe',
     composition: 'Paracetamol / Acetaminophen',
   },
   {
@@ -74,9 +81,10 @@ const medicines = [
     url:
       'https://cdn.shopify.com/s/files/1/0088/4758/9476/products/03389_1800x1800.jpg?v=1596439066',
     type: 'injection',
-    price: '5,476.30',
+    price: '5476.30',
     strength: '3mg/0.3mg',
     rx_req: false,
+    unit: '1 tablet / stripe',
     composition: 'Paracetamol / Acetaminophen',
   },
   {
@@ -87,6 +95,7 @@ const medicines = [
     type: 'tablet',
     strength: '3mg/0.3mg',
     rx_req: true,
+    unit: '1 tablet / stripe',
     composition: 'Paracetamol / Acetaminophen',
   },
   {
@@ -97,6 +106,7 @@ const medicines = [
     type: 'tablet',
     strength: '3mg/0.3mg',
     rx_req: false,
+    unit: '1 tablet / stripe',
     composition: 'Paracetamol / Acetaminophen',
   },
 ];
