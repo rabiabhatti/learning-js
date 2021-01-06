@@ -6,13 +6,27 @@ import {
   Text,
   ScrollView,
   Image,
+  Button,
   TouchableOpacity,
 } from 'react-native';
 import RNPickerSelect from 'react-native-picker-select';
 
-import {Wrapper, Button} from '../components';
+import {Wrapper, Button as CustomButton, CardSlider} from '../components';
 import variables from '../utils/css-variables';
-import { medicines } from '../utils/data';
+import {medicines} from '../utils/data';
+
+const items = [
+  {label: 'Qty 1', value: 1},
+  {label: 'Qty 2', value: 2},
+  {label: 'Qty 3', value: 3},
+  {label: 'Qty 4', value: 4},
+  {label: 'Qty 5', value: 5},
+  {label: 'Qty 6', value: 6},
+  {label: 'Qty 7', value: 7},
+  {label: 'Qty 8', value: 8},
+  {label: 'Qty 9', value: 9},
+  {label: 'Qty 10', value: 10},
+];
 
 function Medicine(props) {
   const {medicine} = props.route.params;
@@ -22,7 +36,7 @@ function Medicine(props) {
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.scrollviewStyle}>
-        <View style={styles.bannerContainer}>
+        <View style={styles.container}>
           <View style={styles.bannerHeadingContainer}>
             <Text style={styles.bannerHeading}>{medicine.name}</Text>
             <Text style={styles.bannerHeadingSup}> {medicine.strength}</Text>
@@ -80,34 +94,43 @@ function Medicine(props) {
                 style={{...pickerSelectStyles}}
                 value={quantity}
                 onValueChange={(q) => setQuantity(q)}
-                items={[
-                  {label: 'Qty 1', value: 1},
-                  {label: 'Qty 2', value: 2},
-                  {label: 'Qty 3', value: 3},
-                  {label: 'Qty 4', value: 4},
-                  {label: 'Qty 5', value: 5},
-                  {label: 'Qty 6', value: 6},
-                  {label: 'Qty 7', value: 7},
-                  {label: 'Qty 8', value: 8},
-                  {label: 'Qty 9', value: 9},
-                  {label: 'Qty 10', value: 10},
-                ]}
+                items={items}
               />
             </View>
-            <Button title="ADD TO CART" onPress={() => console.log('hello')} />
+            <CustomButton
+              title="ADD TO CART"
+              onPress={() => console.log('hello')}
+            />
           </View>
         </View>
+        <View style={styles.similarMeds}>
+          <Text style={styles.heading}>Similar Products</Text>
+          <Button
+            title="View all"
+            color={variables.colors.blue}
+            onPress={() =>
+              props.navigation.navigate('Generic', {
+                generic: medicine.composition,
+              })
+            }
+          />
+        </View>
+        <CardSlider
+          medicines={medicines.slice(0, 5)}
+          navigation={props.navigation}
+        />
       </ScrollView>
     </Wrapper>
   );
 }
 
 const styles = StyleSheet.create({
-  bannerContainer: {
+  container: {
     flex: 1,
     width: '100%',
     padding: variables.spacing.extraSmall,
     backgroundColor: variables.colors.white,
+    marginBottom: variables.spacing.extraSmall,
     ...Platform.select({
       ios: {
         shadowColor: '#b0b0b0',
@@ -146,7 +169,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'flex-start',
     justifyContent: 'flex-start',
-    marginVertical: variables.spacing.extraSmall,
+    marginBottom: variables.spacing.extraSmall,
   },
   bannerImg: {
     width: 170,
@@ -173,6 +196,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: variables.spacing.extraSmall,
   },
+  similarMeds: {
+    width: '100%',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
   link: {
     fontWeight: 'bold',
     color: variables.colors.blue,
@@ -190,6 +219,11 @@ const styles = StyleSheet.create({
   medicineQty: {
     color: variables.colors.bodytext,
     marginBottom: variables.spacing.extraSmall,
+  },
+  heading: {
+    fontWeight: 'bold',
+    color: variables.colors.grey3,
+    fontSize: variables.fontSize.s,
   },
 });
 
