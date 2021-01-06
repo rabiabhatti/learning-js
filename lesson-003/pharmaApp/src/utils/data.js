@@ -258,6 +258,68 @@ const products = [
   },
 ];
 
+const medicineOverview = {
+  intro:
+    'Ecosprin 75 Tablet is an antiplatelet medicine containing acetylsalicylic acid (also called Aspirin). It prevents blood clot formation within the body. It is used to prevent the risk of heart attacks, stroke and chest pain (heart-related). It is also used to reduce the chances of formation of clot after heart surgery, in patients with a risk of vascular thrombosis (blood clot obstructing blood flow in a vein).',
+  usage: [
+    'For the prevention of heart attack, stroke, heart conditions such as stable or unstable angina (chest pain) due to a blood clot.',
+    'Treatment of acute heart attack and blood clot formation after heart surgery.',
+    'As a preventive measure in patients with a history of stroke due to blood clots or risk of vascular thrombosis (blood clot obstructing blood flow in a vein).',
+  ],
+  composition: 'Paracetamol / Acetaminophen',
+  indication: 'May be taken with or without food',
+  dosage: {
+    Overdose:
+      'Symptoms of an overdose of Ecosprin 75 Tablets include ringing in the ears, dizziness, headache, nausea, vomiting and stomach ache, sweating, fever, increased pulse or breathing rate, fits, low blood sugar. If you think you have taken too much of Ecosprin 75 mg Tablet, then contact your doctor immediately or visit the nearest hospital.',
+    'Missed a Dose':
+      'If you missed any dose of Ecosprin 75 mg Tablet, then take it as soon as you remember. If it`s time for your next dose, then skip the missed dose and continue with your regular dosing schedule. Try not to skip/miss any dose of this medicine as it can lead to serious complications.',
+  },
+  precaution: {
+    Pregnancy:
+      'Pregnant women should not take Ecosprin 75 mg Tablet unless advised by the doctor as it is unsafe during pregnancy. This medicine can cause heart or kidney-related problems in the baby. It can also prolong labour and cause uterine bleeding.',
+    'Breast Feeding':
+      'Aspirin from Ecosprin 75 mg Tablet passes into breastmilk. Thus, do not take this medicine if you are breastfeeding unless advised by your doctor.',
+    Driving:
+      'Ecosprin 75 mg Tablet does not affect the ability to drive or operate heavy machines.',
+    Alcohol:
+      'You should avoid consuming alcohol while on treatment with Ecosprin 75 mg Tablet as it may worsen the side effects of this medicine',
+  },
+  storageConditions: [
+    'Do not store Ecosprin 75 mg Tablets above 25°C. Keep it out of the reach of children and pets.',
+  ],
+  sideEffects: [
+    'Bleeding',
+    'Indigestion',
+    'Hives',
+    'Breathing difficulty',
+    'Runny nose',
+    'Itching',
+  ],
+  contraindications: [
+    'If you are allergic to aspirin or any of the ingredients of Ecosprin 75 Tablet.',
+    'If you have an active bleeding or clotting disorder such as haemophilia and thrombocytopenia.',
+    'If you have a history of ulcer or bleeding in the stomach or small intestine.',
+    'If you have gout, liver or kidney disorder or bleeding in the brain.',
+    'If you are pregnant (last three months) or breastfeeding.',
+    'If you are taking medicines for cancer or rheumatoid arthritis such as methotrexate.',
+  ],
+  safetyAdvices: [
+    'You have a planned surgery or had surgery recently, as there is a risk of bleeding.',
+    'You are suffering from asthma. This medicine can worsen your asthma symptoms.',
+    'You have ulcers in your stomach or intestine or taking medicines, which can cause stomach ulcers',
+    'You have any unusual bleeding from any part of your body, recently had trauma or stroke.',
+  ],
+  quickTips: [
+    'You have a planned surgery or had surgery recently, as there is a risk of bleeding.',
+    'You are suffering from asthma. This medicine can worsen your asthma symptoms.',
+    'You have ulcers in your stomach or intestine or taking medicines, which can cause stomach ulcers',
+    'You have any unusual bleeding from any part of your body, recently had trauma or stroke.',
+  ],
+};
+
+const disclaimer =
+  'The information provided herein is accurate, updated and complete as per the best practices of the Company. Please note that this information should not be treated as a replacement for physical medical consultation or advice. We do not guarantee the accuracy and the completeness of the information so provided. The absence of any information and/or warning to any drug shall not be considered and assumed as an implied assurance of the Company. We do not take any responsibility for the consequences arising out of the aforementioned information and strongly recommend you for a physical consultation in case of any queries or doubts. Please click here for detailed T&C.';
+
 const carousel = [
   {src: require('../img/carousel-1.jpg')},
   {src: require('../img/carousel-2.jpg')},
@@ -267,4 +329,11 @@ const carousel = [
 
 const TEL_NUMBER = '1234567890';
 
-export {medicines, products, carousel, TEL_NUMBER};
+export {
+  medicines,
+  products,
+  carousel,
+  TEL_NUMBER,
+  disclaimer,
+  medicineOverview,
+};

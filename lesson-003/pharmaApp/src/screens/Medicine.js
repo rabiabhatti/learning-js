@@ -105,20 +105,29 @@ function Medicine(props) {
         </View>
         <View style={styles.similarMeds}>
           <Text style={styles.heading}>Similar Products</Text>
-          <Button
-            title="View all"
-            color={variables.colors.blue}
+          <TouchableOpacity
             onPress={() =>
               props.navigation.navigate('Generic', {
                 generic: medicine.composition,
               })
-            }
-          />
+            }>
+            <Text style={styles.link}>View all</Text>
+          </TouchableOpacity>
         </View>
         <CardSlider
           medicines={medicines.slice(0, 5)}
           navigation={props.navigation}
         />
+        <View
+          style={[
+            styles.container,
+            {marginVertical: variables.spacing.extraSmall},
+          ]}>
+          <View style={styles.bannerRow}>
+            <Image source={require('../img/overview.png')} style={styles.img} />
+            <Text style={styles.heading}>Medicine Overview</Text>
+          </View>
+        </View>
       </ScrollView>
     </Wrapper>
   );
@@ -128,6 +137,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     width: '100%',
+    borderRadius: variables.borderRadius,
     padding: variables.spacing.extraSmall,
     backgroundColor: variables.colors.white,
     marginBottom: variables.spacing.extraSmall,
@@ -224,6 +234,15 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: variables.colors.grey3,
     fontSize: variables.fontSize.s,
+  },
+  img: {
+    width: 40,
+    height: 40,
+    marginRight: variables.spacing.extraSmall,
+  },
+  bannerRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
   },
 });
 

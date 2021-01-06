@@ -11,7 +11,7 @@ module.exports = {
                 allowNull: true,
             },
             usage: {
-                type: Sequelize.DataTypes.TEXT,
+                type: Sequelize.DataTypes.ARRAY(Sequelize.DataTypes.STRING),
                 allowNull: true,
             },
             composition: {
@@ -42,8 +42,8 @@ module.exports = {
                 type: Sequelize.DataTypes.ARRAY(Sequelize.DataTypes.STRING),
                 allowNull: true,
             },
-            indication: {
-                type: Sequelize.DataTypes.TEXT,
+            contraindications: {
+                type: Sequelize.DataTypes.ARRAY(Sequelize.DataTypes.STRING),
                 allowNull: true,
             },
             precaution: {

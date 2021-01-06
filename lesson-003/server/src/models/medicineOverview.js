@@ -13,14 +13,10 @@ module.exports = (sequelize, DataTypes) => {
                 allowNull: true,
             },
             usage: {
-                type: DataTypes.TEXT,
+                type: DataTypes.ARRAY(DataTypes.STRING),
                 allowNull: true,
             },
             composition: {
-                type: DataTypes.TEXT,
-                allowNull: true,
-            },
-            indication: {
                 type: DataTypes.TEXT,
                 allowNull: true,
             },
@@ -49,6 +45,10 @@ module.exports = (sequelize, DataTypes) => {
                 allowNull: true,
             },
             quickTips: {
+                type: DataTypes.ARRAY(DataTypes.STRING),
+                allowNull: true,
+            },
+            contraindications: {
                 type: DataTypes.ARRAY(DataTypes.STRING),
                 allowNull: true,
             },
