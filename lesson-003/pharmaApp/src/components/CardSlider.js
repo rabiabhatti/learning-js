@@ -1,51 +1,48 @@
-import React, {Component} from 'react';
-import {View, StyleSheet, ScrollView, Dimensions, Platform} from 'react-native';
+import React from 'react';
+import {
+  View,
+  StyleSheet,
+  ScrollView,
+  Dimensions,
+  Platform,
+  TouchableWithoutFeedback,
+  Image,
+  Text,
+} from 'react-native';
+
+import variables from '../utils/css-variables';
 
 const window = Dimensions.get('window');
 
-class CardSlider extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      numOfCards: this.props.children.length,
-      position: 1,
-    };
-  }
-  scroll = (e) => {
-    let offsetX = e.contentOffset.x;
-    let page = parseInt(offsetX / window.width);
-    if (page === this.state.numOfCards - 1) {
-      this.setState({position: 0});
-    } else {
-      this.setState({position: page + 1});
-    }
-  };
-  render() {
-    const {children} = this.props;
-    let cards;
-    if (children.length > 1) {
-      cards = children.map((item, i) => {
-        return (
-          <View style={styles.card} key={i}>
-            {item}
+function CardSlider(props) {
+  return (
+    <ScrollView
+      style={styles.scroll}
+      horizontal={true}
+      pagingEnabled={true}
+      showsHorizontalScrollIndicator={false}
+      scrollEventThrottle={20}>
+      {props.medicines.map((item, index) => (
+        <TouchableWithoutFeedback
+          key={index}
+          onPress={() =>
+            props.navigation.navigate('Medicine', {medicine: item})
+          }>
+          <View style={styles.cardContainer}>
+            <Image
+              resizeMode="contain"
+              source={{uri: `${item.url}`}}
+              style={styles.cardImage}
+            />
+            <Text style={styles.categoryMedicine} numberOfLines={2}>
+              {item.name}
+            </Text>
+            <Text style={styles.linksDimText}>Rs. {item.price}</Text>
           </View>
-        );
-      });
-    } else {
-      cards = <View style={styles.card}>{children}</View>;
-    }
-    return (
-      <ScrollView
-        style={styles.scroll}
-        onScroll={(e) => this.scroll(e.nativeEvent)}
-        horizontal={true}
-        pagingEnabled={true}
-        showsHorizontalScrollIndicator={false}
-        scrollEventThrottle={20}>
-        {cards}
-      </ScrollView>
-    );
-  }
+        </TouchableWithoutFeedback>
+      ))}
+    </ScrollView>
+  );
 }
 
 const styles = StyleSheet.create({
@@ -62,6 +59,40 @@ const styles = StyleSheet.create({
   },
   card: {
     width: window.width / 2.2,
+  },
+  cardContainer: {
+    padding: 10,
+    marginLeft: 0,
+    marginRight: 7,
+    shadowRadius: 1,
+    borderRadius: 4,
+    width: window.width / 2.2,
+    backgroundColor: '#fff',
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+    justifyContent: 'space-between',
+    marginTop: variables.spacing.extraSmall,
+    ...Platform.select({
+      ios: {
+        shadowColor: '#b0b0b0',
+        shadowOffset: {width: 0, height: 2},
+        shadowOpacity: 0.75,
+      },
+      android: {
+        elevation: 2,
+      },
+    }),
+  },
+  cardImage: {
+    width: 130,
+    height: 130,
+    alignSelf: 'center',
+  },
+  categoryMedicine: {
+    height: 40,
+    fontSize: 14,
+    fontWeight: '600',
+    color: variables.colors.headingtext,
   },
 });
 

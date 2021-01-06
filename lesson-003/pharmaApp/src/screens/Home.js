@@ -9,7 +9,6 @@ import {
   Linking,
   Platform,
   TouchableOpacity,
-  TouchableWithoutFeedback,
 } from 'react-native';
 
 import variables from '../utils/css-variables';
@@ -108,27 +107,7 @@ function Home({navigation}) {
         {categories.map((c, i) => (
           <View key={i} style={styles.categoryContainer}>
             <Text style={styles.categoryHeading}>{c}</Text>
-            <CardSlider>
-              {medicines.map((item, index) => (
-                <TouchableWithoutFeedback
-                  key={index}
-                  onPress={() =>
-                    navigation.navigate('Medicine', {medicine: item})
-                  }>
-                  <View style={styles.cardContainer}>
-                    <Image
-                      resizeMode="contain"
-                      source={{uri: `${item.url}`}}
-                      style={styles.cardImage}
-                    />
-                    <Text style={styles.categoryMedicine} numberOfLines={2}>
-                      {item.name}
-                    </Text>
-                    <Text style={styles.linksDimText}>Rs. {item.price}</Text>
-                  </View>
-                </TouchableWithoutFeedback>
-              ))}
-            </CardSlider>
+            <CardSlider medicines={medicines} navigation={navigation} />
           </View>
         ))}
       </ScrollView>
@@ -204,39 +183,6 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: variables.colors.grey3,
     fontSize: variables.fontSize.s,
-  },
-  cardContainer: {
-    padding: 10,
-    marginLeft: 0,
-    marginRight: 7,
-    shadowRadius: 1,
-    borderRadius: 4,
-    backgroundColor: '#fff',
-    flexDirection: 'column',
-    alignItems: 'flex-start',
-    justifyContent: 'space-between',
-    marginTop: variables.spacing.extraSmall,
-    ...Platform.select({
-      ios: {
-        shadowColor: '#b0b0b0',
-        shadowOffset: {width: 0, height: 2},
-        shadowOpacity: 0.75,
-      },
-      android: {
-        elevation: 2,
-      },
-    }),
-  },
-  cardImage: {
-    width: 130,
-    height: 130,
-    alignSelf: 'center',
-  },
-  categoryMedicine: {
-    height: 40,
-    fontSize: 14,
-    fontWeight: '600',
-    color: variables.colors.headingtext,
   },
 });
 
