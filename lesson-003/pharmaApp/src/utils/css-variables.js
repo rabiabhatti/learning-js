@@ -1,6 +1,8 @@
 const variables = {
   colors: {
     blue: '#26476c',
+    blue2: '#749fce',
+    blue3: '#c1d4ea',
     white: '#fff',
     border: '#dadce0',
     bodytext: '#3c4043',
@@ -11,6 +13,7 @@ const variables = {
     grey4: '#666',
     grey5: '#292929',
     black: '#333333',
+    red: '#E74C3C',
   },
   fontSize: {
     xs: 14,

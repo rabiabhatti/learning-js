@@ -6,7 +6,7 @@ module.exports = {
                 primaryKey: true,
                 type: Sequelize.DataTypes.INTEGER,
             },
-            intro: {
+            introduction: {
                 type: Sequelize.DataTypes.TEXT,
                 allowNull: true,
             },

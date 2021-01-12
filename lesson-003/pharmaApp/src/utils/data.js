@@ -259,7 +259,7 @@ const products = [
 ];
 
 const medicineOverview = {
-  intro:
+  introduction:
     'Ecosprin 75 Tablet is an antiplatelet medicine containing acetylsalicylic acid (also called Aspirin). It prevents blood clot formation within the body. It is used to prevent the risk of heart attacks, stroke and chest pain (heart-related). It is also used to reduce the chances of formation of clot after heart surgery, in patients with a risk of vascular thrombosis (blood clot obstructing blood flow in a vein).',
   usage: [
     'For the prevention of heart attack, stroke, heart conditions such as stable or unstable angina (chest pain) due to a blood clot.',
@@ -314,6 +314,10 @@ const medicineOverview = {
     'You are suffering from asthma. This medicine can worsen your asthma symptoms.',
     'You have ulcers in your stomach or intestine or taking medicines, which can cause stomach ulcers',
     'You have any unusual bleeding from any part of your body, recently had trauma or stroke.',
+  ],
+  modeOfAction: [
+    'Ecosprin is an antiplatelet medicine. It works by inhibiting the action of an enzyme, which makes platelets aggregate together to form a blood clot. When clot formation occurs in blood vessels, blood flow is obstructed or blocked, which can be dangerous in cases of heart attack and could lead to stroke or chest pain (angina).',
+    'Aspirin in low doses stops these platelets from forming a clot so that blood can flow without any obstruction in the arteries.',
   ],
 };
 

@@ -6,14 +6,15 @@ import {
   Text,
   ScrollView,
   Image,
-  Button,
+  FlatList,
   TouchableOpacity,
 } from 'react-native';
+import ViewMoreText from 'react-native-view-more-text';
 import RNPickerSelect from 'react-native-picker-select';
 
-import {Wrapper, Button as CustomButton, CardSlider} from '../components';
 import variables from '../utils/css-variables';
-import {medicines} from '../utils/data';
+import {medicines, medicineOverview, disclaimer} from '../utils/data';
+import {Wrapper, Button as CustomButton, CardSlider} from '../components';
 
 const items = [
   {label: 'Qty 1', value: 1},
@@ -31,6 +32,23 @@ const items = [
 function Medicine(props) {
   const {medicine} = props.route.params;
   const [quantity, setQuantity] = useState(1);
+
+  const renderViewMore = (onPress) => {
+    return (
+      <Text style={styles.showMore} onPress={onPress}>
+        Show more
+      </Text>
+    );
+  };
+
+  const renderViewLess = (onPress) => {
+    return (
+      <Text style={styles.showMore} onPress={onPress}>
+        Show less
+      </Text>
+    );
+  };
+
   return (
     <Wrapper>
       <ScrollView
@@ -127,6 +145,165 @@ function Medicine(props) {
             <Image source={require('../img/overview.png')} style={styles.img} />
             <Text style={styles.heading}>Medicine Overview</Text>
           </View>
+          <Text style={styles.blueHeading}>Introuduction</Text>
+          <ViewMoreText
+            numberOfLines={3}
+            renderViewMore={renderViewMore}
+            renderViewLess={renderViewLess}>
+            <Text style={styles.text}>{medicineOverview.introduction}</Text>
+          </ViewMoreText>
+          <Text style={styles.blueHeading}>Uses of {medicine.name}</Text>
+          <ViewMoreText
+            numberOfLines={1}
+            renderViewMore={renderViewMore}
+            renderViewLess={renderViewLess}>
+            {medicineOverview.usage.map((item, i) => (
+              <View style={styles.column} key={i}>
+                <Text style={styles.text}>* {item}</Text>
+              </View>
+            ))}
+          </ViewMoreText>
+          <Text style={styles.blueHeading}>Side effects</Text>
+          <View style={styles.column}>
+            {medicineOverview.sideEffects.map((item, i) => (
+              <Text style={styles.text} key={i}>
+                * {item}
+              </Text>
+            ))}
+          </View>
+        </View>
+        <View
+          style={[
+            styles.container,
+            {marginVertical: variables.spacing.extraSmall},
+          ]}>
+          <View style={styles.bannerRow}>
+            <Image source={require('../img/shield.png')} style={styles.img} />
+            <Text style={styles.heading}>Safety Advices</Text>
+          </View>
+          {medicineOverview.safetyAdvices.map((item, i) => (
+            <Text style={styles.text} key={i}>
+              * {item}
+            </Text>
+          ))}
+        </View>
+        <View
+          style={[
+            styles.container,
+            {marginVertical: variables.spacing.extraSmall},
+          ]}>
+          <View style={styles.bannerRow}>
+            <Image source={require('../img/overview.png')} style={styles.img} />
+            <Text style={styles.heading}>Brief Description </Text>
+          </View>
+          <Text style={styles.blueHeading}>Indication</Text>
+          <ViewMoreText
+            numberOfLines={3}
+            renderViewMore={renderViewMore}
+            renderViewLess={renderViewLess}>
+            <Text style={styles.text}>{medicineOverview.indication}</Text>
+          </ViewMoreText>
+          <Text style={styles.blueHeading}>How to use</Text>
+          {Object.entries(medicineOverview.dosage).map(([key, value]) => (
+            <View key={key}>
+              <Text style={styles.smallBlueHeading}>* {key}</Text>
+              <ViewMoreText
+                numberOfLines={3}
+                renderViewMore={renderViewMore}
+                renderViewLess={renderViewLess}>
+                <Text style={styles.text}>{value}</Text>
+              </ViewMoreText>
+            </View>
+          ))}
+          <Text style={styles.blueHeading}>Mode of Action</Text>
+          <Text style={styles.smallBlueHeading}>* How Does It Work?</Text>
+          <ViewMoreText
+            numberOfLines={1}
+            renderViewMore={renderViewMore}
+            renderViewLess={renderViewLess}>
+            {medicineOverview.modeOfAction.map((item, i) => (
+              <View style={styles.column} key={i}>
+                <Text style={styles.text}>* {item}</Text>
+              </View>
+            ))}
+          </ViewMoreText>
+          <Text style={styles.blueHeading}>Contraindications</Text>
+          <ViewMoreText
+            numberOfLines={2}
+            renderViewMore={renderViewMore}
+            renderViewLess={renderViewLess}>
+            {medicineOverview.contraindications.map((item, i) => (
+              <View style={styles.column} key={i}>
+                <Text style={styles.text}>* {item}</Text>
+              </View>
+            ))}
+          </ViewMoreText>
+          <Text style={styles.blueHeading}>Storage Conditions</Text>
+          <ViewMoreText
+            numberOfLines={1}
+            renderViewMore={renderViewMore}
+            renderViewLess={renderViewLess}>
+            {medicineOverview.storageConditions.map((item, i) => (
+              <View style={styles.column} key={i}>
+                <Text style={styles.text}>* {item}</Text>
+              </View>
+            ))}
+          </ViewMoreText>
+        </View>
+        <View
+          style={[
+            styles.container,
+            {marginVertical: variables.spacing.extraSmall},
+          ]}>
+          <View style={styles.bannerRow}>
+            <Image
+              source={require('../img/precaution.png')}
+              style={styles.img}
+            />
+            <Text style={styles.heading}>Precautions</Text>
+          </View>
+          {Object.entries(medicineOverview.precaution).map(([key, value]) => (
+            <View key={key}>
+              <Text style={styles.smallBlueHeading}>{key}</Text>
+              <ViewMoreText
+                numberOfLines={2}
+                renderViewMore={renderViewMore}
+                renderViewLess={renderViewLess}>
+                <Text style={styles.text}>{value}</Text>
+              </ViewMoreText>
+            </View>
+          ))}
+        </View>
+        <View
+          style={[
+            styles.container,
+            {marginVertical: variables.spacing.extraSmall},
+          ]}>
+          <View style={styles.bannerRow}>
+            <Image source={require('../img/warning.png')} style={styles.img} />
+            <Text style={styles.heading}>General Warnings</Text>
+          </View>
+          <Text style={styles.text}>Talk to your doctor if:</Text>
+          <ViewMoreText
+            numberOfLines={2}
+            renderViewMore={renderViewMore}
+            renderViewLess={renderViewLess}>
+            {medicineOverview.quickTips.map((item, i) => (
+              <View style={styles.column} key={i}>
+                <Text style={styles.text}>* {item}</Text>
+              </View>
+            ))}
+          </ViewMoreText>
+        </View>
+        <View>
+          <View style={styles.bannerRow}>
+            <Image
+              source={require('../img/disclaimer.png')}
+              style={styles.img}
+            />
+            <Text style={styles.disclaimerHeading}>Disclaimer</Text>
+          </View>
+          <Text style={styles.disclaimerText}>{disclaimer}</Text>
         </View>
       </ScrollView>
     </Wrapper>
@@ -168,6 +345,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+  },
+  column: {
+    display: 'flex',
+    flexDirection: 'column',
   },
   bannerHeadingSup: {
     fontSize: 14,
@@ -235,14 +416,45 @@ const styles = StyleSheet.create({
     color: variables.colors.grey3,
     fontSize: variables.fontSize.s,
   },
+  disclaimerHeading: {
+    fontWeight: 'bold',
+    color: variables.colors.red,
+    fontSize: variables.fontSize.s,
+  },
+  disclaimerText: {
+    color: variables.colors.grey3,
+    fontSize: variables.fontSize.xs,
+    marginVertical: variables.spacing.extraSmall,
+  },
   img: {
-    width: 40,
-    height: 40,
+    width: 35,
+    height: 35,
     marginRight: variables.spacing.extraSmall,
   },
   bannerRow: {
     flexDirection: 'row',
     alignItems: 'center',
+  },
+  blueHeading: {
+    fontWeight: 'bold',
+    color: variables.colors.blue,
+    fontSize: variables.fontSize.s,
+    marginVertical: variables.spacing.extraExtraSmall,
+  },
+  smallBlueHeading: {
+    fontWeight: 'bold',
+    color: variables.colors.blue,
+    fontSize: variables.fontSize.xs,
+    marginVertical: variables.spacing.extraExtraSmall,
+  },
+  text: {
+    color: variables.colors.bodytext,
+    marginVertical: variables.spacing.extraExtraExtraSmall,
+  },
+  showMore: {
+    fontWeight: 'bold',
+    color: variables.colors.black,
+    marginVertical: variables.spacing.extraExtraExtraSmall,
   },
 });
 
